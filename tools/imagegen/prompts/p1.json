@@ -1,0 +1,16 @@
+[
+  {"name": "p1/smile", "seed": 1101, "width": 832, "height": 1088,
+   "prompt": "vintage 1990s sepia studio photograph, portrait of a cheerful 6 year old Indian boy with a huge bright toothy smile, short black hair, chubby cheeks, plain studio backdrop, single studio flash with catchlight in the eyes, faded print, soft film grain, dust specks, head and shoulders, centered"},
+  {"name": "p1/modelling", "seed": 1102, "width": 832, "height": 1216,
+   "prompt": "1990s child modelling portfolio photograph, Indian boy around 9 years old posing confidently in a small navy blazer, hand in pocket, mottled grey studio backdrop, flash photography, film grain, faded colour print"},
+  {"name": "p1/spellbee", "seed": 1103, "width": 1216, "height": 896,
+   "prompt": "old 2000s compact camera photograph, school auditorium stage, a young Indian schoolboy in uniform speaking into a microphone at a spelling competition, judges table, flash photography, grainy, faded colours, candid"},
+  {"name": "p1/stage", "seed": 1104, "width": 1216, "height": 832,
+   "prompt": "grainy 2000s photograph of an Indian school annual day stage performance, children in costumes on stage under a hot spotlight, silhouettes of audience heads in the foreground, flash glare, faded print"},
+  {"name": "p1/olympiad", "seed": 1105, "width": 896, "height": 1152,
+   "prompt": "close-up photograph of a gold medal on a red and blue ribbon lying on a school certificate, harsh camera flash, shallow depth of field, faded print, film grain"},
+  {"name": "p1/debate", "seed": 1106, "width": 1216, "height": 896,
+   "prompt": "old photograph of a teenage Indian boy in a school blazer speaking passionately at a wooden podium during a model united nations debate, country placard on the desk, flash photography, faded colours, grain"},
+  {"name": "p1/modelling2", "seed": 1107, "width": 832, "height": 1152,
+   "prompt": "1990s print advertisement photograph, smiling Indian boy around 8 years old in a crisp white shirt, flawless white teeth, bright studio lighting, toothpaste advertisement style, faded magazine print texture, grain"}
+]

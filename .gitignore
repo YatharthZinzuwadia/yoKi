@@ -1,0 +1,17 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+# backup of the v2 doc pack — kept locally, not versioned
+*.zip
+# local tools (large)
+tools/imagegen/.venv/
+tools/imagegen/.bin/
+tools/imagegen/.python/
+tools/imagegen/.uv-cache/
+tools/imagegen/.hf/
+tools/imagegen/out/
+tools/qa/out/
+tools/blender/out/

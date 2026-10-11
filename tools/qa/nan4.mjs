@@ -1,0 +1,17 @@
+import { chromium } from 'playwright'
+const browser = await chromium.launch({ args: ['--enable-gpu', '--ignore-gpu-blocklist', '--use-gl=angle', '--use-angle=gl'], env: { ...process.env, __NV_PRIME_RENDER_OFFLOAD: '1', __GLX_VENDOR_LIBRARY_NAME: 'nvidia' } })
+const page = await browser.newPage({ viewport: { width: 800, height: 450 } })
+await page.goto('http://localhost:5173/?debug')
+await page.waitForFunction(() => window.__yoki?.ui.getState().ready, null, { timeout: 120000 })
+await page.waitForTimeout(2500)
+await page.mouse.click(400, 225)
+await page.waitForTimeout(1200)
+await page.evaluate(() => window.__yoki.seek(18.7))
+await page.waitForTimeout(500)
+const P = 'tools/qa/out/'
+await page.evaluate(() => { const c = window.__post.composer; c.passes[2].enabled = false; c.passes[3].enabled = false; c.passes[4].enabled = false; c.passes[4].renderToScreen = false; c.passes[1].renderToScreen = true })
+await page.waitForTimeout(300); await page.screenshot({ path: P + 'dbg-sanitized.png' })
+await page.evaluate(() => { const c = window.__post.composer; c.passes[1].renderToScreen = false; c.passes[2].enabled = true; c.passes[2].renderToScreen = true })
+await page.waitForTimeout(300); await page.screenshot({ path: P + 'dbg-paintbloom.png' })
+console.log(await page.evaluate(() => window.__post.composer.passes.map((p) => `${p.name}:${p.enabled}:${p.renderToScreen}`)))
+await browser.close()

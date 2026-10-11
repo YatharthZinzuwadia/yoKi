@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>yoKi</title>
+    <meta name="description" content="yoKi — a self made into a world. A single-take, first-person film you scroll through. 18+." />
+    <meta name="theme-color" content="#0a0a0c" />
+    <meta name="color-scheme" content="dark" />
+    <meta property="og:title" content="yoKi" />
+    <meta property="og:description" content="A self made into a world." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+      html, body { background: #0a0a0c; }
+    </style>
+  </head>
+  <body>
+    <div id="scroll-track"></div>
+    <div id="root"></div>
+    <div id="cut-veil"></div>
+    <noscript>
+      <div style="position:fixed;inset:0;display:grid;place-items:center;color:#ede6d6;font:13px monospace;text-align:center;padding:10vw">
+        yoKi is a film you scroll through. It needs JavaScript and WebGL2.
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
