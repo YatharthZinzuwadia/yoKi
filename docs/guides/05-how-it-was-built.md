@@ -92,6 +92,13 @@ A normal scroll site moves DOM sections. yoKi has **one number, `film.t`** (film
 
 The probe scripts are kept in `tools/qa/nan*.mjs`.
 
+## 8b. Another real bug: the chamber that "popped"
+
+- **Symptom:** walking out of the cave, the frame and chamber appeared all at once.
+- **Cause:** the tunnel ends *inside* the chamber's dome, but the dome was a closed, double-sided shell. From inside the tunnel you were looking at the dome's outside, a black wall, until the camera crossed it.
+- **Fix:** `domeGeometry({ mouth })` skips the triangles facing the tunnel (`src/gl/parts/caveGeometry.ts`). The frame's lights now also fade in on `u` instead of switching on at the scene's visibility margin.
+- **Method:** `tools/qa/peek.mjs <t> <exposure>` screenshots a moment with forced exposure. If even +3 EV shows nothing, something is *occluding*, not under-lit.
+
 ## 9. Blender (coming with P1-01 / P1-11)
 
 Blender will run **headless from scripts** (`blender -b -P tools/blender/<script>.py`): create figures (MakeHuman / MPFB2, CC0), pose them, and export `.glb` to `public/models/`. Each script will get a section here explaining it line by line. If you want to try Blender by hand, start with `docs/guides/02-blender-from-zero.md`.

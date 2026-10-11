@@ -128,6 +128,7 @@ const heightsPromise: Promise<Texture> =
           [1010, '5\'8"', 'make us proud'],
           [1150, '6\'', '—'],
         ]
+        // the creator's own marks: engineer; no 'doctor?' (2026-10-12)
         ctx.strokeStyle = 'rgba(40,36,34,0.85)'
         ctx.fillStyle = 'rgba(40,36,34,0.88)'
         ctx.lineCap = 'round'
@@ -142,6 +143,27 @@ const heightsPromise: Promise<Texture> =
           ctx.fillText(hgt, 640, yy + 14)
           ctx.font = 'italic 56px "Fraunces Variable"'
           ctx.fillText(dem, 300, yy - 18)
+        })
+        // a second, lower column in blue pencil: the brother (8 years younger) and the
+        // expectations handed down to him: commerce, then CA
+        const bro: [number, string, string][] = [
+          [380, '3\'4"', 'his turn'],
+          [470, '3\'8"', 'commerce'],
+          [560, '4\'0"', 'CA'],
+        ]
+        ctx.strokeStyle = 'rgba(38,58,96,0.85)'
+        ctx.fillStyle = 'rgba(38,58,96,0.9)'
+        bro.forEach(([y, hgt, dem]) => {
+          const yy = h - y
+          ctx.lineWidth = 3
+          ctx.beginPath()
+          ctx.moveTo(70, yy)
+          ctx.lineTo(250, yy + 2)
+          ctx.stroke()
+          ctx.font = 'italic 36px "Fraunces Variable"'
+          ctx.fillText(hgt, 160, yy + 34)
+          ctx.font = 'italic 46px "Fraunces Variable"'
+          ctx.fillText(dem, 70, yy - 14)
         })
         const t = new CanvasTexture(c)
         t.colorSpace = SRGBColorSpace

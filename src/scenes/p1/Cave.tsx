@@ -204,7 +204,7 @@ export const caveSpec: SceneSpec = {
     { u: 4.2, pos: [0.3, 1.56, -16.6], at: [0.7, 1.3, -24] },
     { u: 4.95, pos: [0.55, 1.5, -19.6], at: [1.3, 1.02, -22.3], tension: 0.55 },
     { u: 5.9, pos: [0.25, 1.62, -26.4], at: [0.1, 1.7, -37] },
-    { u: 7.0, pos: [0.05, 1.68, -35], at: [0.35, 3.4, -52] },
+    { u: 7.0, pos: [0.05, 1.68, -35], at: [0.5, 2.6, -55] },
   ],
   look: [
     {
@@ -229,5 +229,6 @@ export const caveSpec: SceneSpec = {
     { u: 0.8, veilBlack: 0 },
     { u: 7, exposure: 0.0 },
   ],
-  fog: { color: '#060608', near: 3, far: 26 },
+  // far enough that the chamber's back-lit frame reads as a silhouette from inside the tunnel (P1-05)
+  fog: { color: '#060608', near: 6, far: 52 },
 }

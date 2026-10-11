@@ -75,7 +75,12 @@ export function tunnelGeometry(curve: Curve<Vector3>, o: TunnelOpts = {}) {
 }
 
 /** A large deformed dome (inside-facing), e.g. the chamber of the first frame. */
-export function domeGeometry({ radius = 18, center = [0, 6, -54] as readonly number[], seg = 96, rough = 2.2, seed = 9, floorY = 0, colorA = '#1f1e24', colorB = '#08080a' } = {}) {
+/**
+ * `mouth`: carve an opening facing +z (where a tunnel enters). Without it the dome's
+ * outer shell blocks the view from the tunnel and the chamber "pops" into existence
+ * the moment the camera crosses the shell (bug fixed 2026-10-12, P1-05).
+ */
+export function domeGeometry({ radius = 18, center = [0, 6, -54] as readonly number[], seg = 96, rough = 2.2, seed = 9, floorY = 0, colorA = '#1f1e24', colorB = '#08080a', mouth = 0 } = {}) {
   const rings = seg / 2
   const pos = new Float32Array((rings + 1) * (seg + 1) * 3)
   const col = new Float32Array((rings + 1) * (seg + 1) * 3)
@@ -104,6 +109,13 @@ export function domeGeometry({ radius = 18, center = [0, 6, -54] as readonly num
   const idx: number[] = []
   for (let i = 0; i < rings; i++)
     for (let j = 0; j < seg; j++) {
+      if (mouth > 0) {
+        // direction of this quad's centre from the dome centre
+        const th = ((i + 0.5) / rings) * Math.PI, ph = ((j + 0.5) / seg) * Math.PI * 2
+        const dz = Math.sin(th) * Math.sin(ph), dy = Math.cos(th), dx = Math.sin(th) * Math.cos(ph)
+        // an arched opening: wide at the floor, closing toward the top
+        if (dz > 1 - mouth && dy < 0.42 - Math.abs(dx) * 0.6) continue
+      }
       const a = i * (seg + 1) + j, b = a + seg + 1
       idx.push(a, b, a + 1, b, b + 1, a + 1)
     }

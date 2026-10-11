@@ -42,12 +42,12 @@ export const FOUND = {
 export const GALLERY = { z0: -198, z1: -270, halfW: 4.6, height: 8 }
 
 export const GALLERY_FRAMES = [
-  { id: 'p1.g0', img: 'p1/modelling', side: 1, z: -212, y: 2.95, w: 2.46, h: 3.33 },
+  { id: 'p1.g0', img: 'p1/modelling2', side: 1, z: -212, y: 2.95, w: 2.46, h: 3.33 },
   { id: 'p1.g1', img: 'p1/spellbee', side: -1, z: -219, y: 2.75, w: 2.75, h: 2.17 },
   { id: 'p1.g2', img: 'p1/stage', side: 1, z: -226, y: 2.65, w: 3.48, h: 2.46 },
   { id: 'p1.g3', img: 'p1/olympiad', side: -1, z: -234, y: 3.15, w: 2.17, h: 2.90 },
   { id: 'p1.g4', img: 'p1/debate', side: 1, z: -242, y: 2.75, w: 2.90, h: 2.17 },
-  { id: 'p1.g5', img: 'p1/modelling2', side: -1, z: -249, y: 2.55, w: 2.32, h: 3.19 },
+  { id: 'p1.g5', img: 'p1/smile', side: -1, z: -249, y: 2.55, w: 2.32, h: 3.19 },
 ]
 
 export const HOUSE = { z0: -271, z1: -296, halfW: 1.6 }

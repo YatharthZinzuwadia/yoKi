@@ -64,8 +64,9 @@ void main() {
 }`
 
 function Frame({ range: r }: { range: SceneRange }) {
-  const photo = useImage('p1/smile', sepiaPortrait(3, 'child'), [768, 1024])
-  const dome = useMemo(() => domeGeometry({ radius: CHAMBER.radius, center: CHAMBER.center, seed: 9, floorY: 0, rough: 2.4 }), [])
+  // the anchor is the modelling portfolio portrait (creator, 2026-10-12); Colgate lives on the gallery wall
+  const photo = useImage('p1/modelling', sepiaPortrait(3, 'child'), [768, 1024])
+  const dome = useMemo(() => domeGeometry({ radius: CHAMBER.radius, center: CHAMBER.center, seed: 9, floorY: 0, rough: 2.4, mouth: 0.22 }), [])
   const domeMat = useMemo(() => painted({ vertexColors: true, roughness: 0.8, side: DoubleSide, detail: [1.0, 0.9, 0.55, 0.4] }), [])
   const lacquer = useMemo(() => painted({ color: '#0d0c0e', roughness: 0.16, metalness: 0.1, bands: 0.06, rim: [0.9, 0.8, 0.7, 0.25] }), [])
   const brass = useMemo(() => painted({ color: '#c99545', roughness: 0.33, metalness: 1, rim: [1, 0.8, 0.5, 0.4] }), [])
@@ -104,17 +105,22 @@ function Frame({ range: r }: { range: SceneRange }) {
   const c = FRAME.center
   const z = c.z
 
+  // P1-05: nothing may switch on at a visibility margin. Everything here fades in on u
+  // over the same 3.5 units the chamber is visible before the scene starts.
   useSceneFrame(r, (u) => {
+    const pre = smoothstep(-3.5, 0, u)
     const p = trig.step(u)
     const scan = range(u, 0.9, 3.1)
     photoMat.uniforms.uScan.value = scan
-    photoMat.uniforms.uLight.value = 0.35 + 0.75 * smoothstep(0.9, 2.2, u)
+    photoMat.uniforms.uLight.value = (0.12 + 0.23 * pre) + 0.75 * smoothstep(0.9, 2.2, u)
     photoMat.uniforms.uTime.value = film.clock
     glassMat.uniforms.uGhostA.value = smoothstep(2.9, 3.6, u) * (1 - smoothstep(4.3, 4.7, u)) * 0.16
     // light: the filament's warm pool at the frame's foot, a scan glow, a high cold key
-    sceneLights.push(3.0, 0.6, z + 1.2, 8, 1, 0.72, 0.42, 3.2)
+    // a cool backlight behind the frame: from deep in the tunnel the frame reads first as a silhouette
+    sceneLights.push(c.x, c.y + 1, z - 3, 16, 0.6, 0.66, 0.8, 2.4 * pre * (1 - smoothstep(1.5, 3, u) * 0.6))
+    sceneLights.push(3.0, 0.6, z + 1.2, 8, 1, 0.72, 0.42, 3.2 * pre)
     if (scan > 0 && scan < 1) sceneLights.push(c.x - inW / 2 + inW * scan, c.y, z + 0.8, 6, 1, 0.8, 0.55, 4)
-    sceneLights.push(-4, 13, z + 6, 26, 0.55, 0.6, 0.72, 1.2 + smoothstep(0, 2, u) * 1.4)
+    sceneLights.push(-4, 13, z + 6, 26, 0.55, 0.6, 0.72, 1.2 * pre + smoothstep(0, 2, u) * 1.4)
     sceneLights.push(0, 4.5, z + 9, 14, 1, 0.86, 0.66, smoothstep(1.6, 3, u) * 1.6)
     setAnchor('p1.frame.tl', c.x - W / 2, c.y + H / 2, z + 0.2)
     setAnchor('p1.frame.smile', c.x + 0.25, c.y - 0.15, z + 0.2)
@@ -122,7 +128,7 @@ function Frame({ range: r }: { range: SceneRange }) {
     const flash = u <= r.length ? smoothstep(4.5, 4.95, u) : 0
     fx.flash += flash
     if (trig.crossed(p, u, 4.5)) audio.cue('flash', { gain: 0.9, pan: 0.2 })
-  })
+  }, { before: 3.5 })
 
   return (
     <SceneRoot range={r} before={3.5}>
@@ -176,7 +182,7 @@ export const frameSpec: SceneSpec = {
   id: 'p1.frame',
   Component: Frame,
   camera: [
-    { u: 0, pos: [0.05, 1.68, -35], at: [0.35, 3.4, -52] },
+    { u: 0, pos: [0.05, 1.68, -35], at: [0.5, 2.6, -55] },
     { u: 1.3, pos: [0.3, 1.9, -43.5], at: [0.3, 4.6, -64] },
     { u: 2.7, pos: [0.55, 2.35, -50.5], at: [0.05, 5.0, -64], tension: 0.35 },
     { u: 4.0, pos: [1.05, 2.55, -54], at: [-0.25, 5.0, -64], tension: 0.7 },

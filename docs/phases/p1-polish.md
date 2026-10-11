@@ -245,14 +245,14 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [ ] P1-02 entry transition
 - [ ] P1-03 sigil likeness + idle
 - [ ] P1-04 cave v2
-- [ ] P1-05 no-pop cave→chamber
-- [ ] P1-06 modelling frame + studio
+- [x] P1-05 no-pop cave→chamber (dome mouth carved; lights fade on u; fog extended)
+- [ ] P1-06 modelling frame + studio (**anchor swapped to modelling ✓**, Colgate on the gallery wall ✓; studio dressing TODO)
 - [ ] P1-07 walk through the photograph
 - [ ] P1-08 gallery room
 - [ ] P1-09 choreography, cabinet, physics
 - [ ] P1-10 eyes v2
 - [ ] P1-11 house legible
-- [ ] P1-12 height marks
+- [ ] P1-12 height marks (**marks + brother column ✓**; real child hand waits on P1-01)
 - [ ] P1-13 steamed mirror
 - [ ] P1-14 infographics layer
 - [ ] P1-15 threshold polish
