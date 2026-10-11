@@ -242,7 +242,7 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 ## 4. Progress
 
 - [ ] P1-01 hands
-- [ ] P1-02 entry transition
+- [x] P1-02 entry transition (sigil zooms through its left eye; `film.intro` 0→1 over 3 s lifts the black and glides the camera in; scroll unlocks on arrival)
 - [ ] P1-03 sigil likeness + idle
 - [ ] P1-04 cave v2
 - [x] P1-05 no-pop cave→chamber (dome mouth carved; lights fade on u; fog extended)

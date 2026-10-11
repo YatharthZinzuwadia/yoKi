@@ -7,7 +7,7 @@ import { MathUtils, Quaternion, Vector3, type PerspectiveCamera } from 'three'
 import { view } from '../engine/anchors'
 import { film } from '../engine/director'
 import { fx } from '../engine/fx'
-import { damp } from '../engine/math'
+import { damp, easeInOutCubic, smoothstep } from '../engine/math'
 import { cameraTrack } from '../scenes'
 
 export const pointer = { x: 0, y: 0 }
@@ -56,6 +56,14 @@ export function CameraRig() {
       pos.current.y += (Math.sin(k * 41.7 + 2) + Math.sin(k * 19.1)) * a * 0.5
     }
 
+    // entry transition (P1-02): start 4.5 m back and 0.9 m up in darkness, glide into the first key
+    if (film.intro < 1) {
+      const e = 1 - easeInOutCubic(film.intro)
+      pos.current.z += 4.5 * e
+      pos.current.y += 0.9 * e
+      at.current.y -= 0.6 * e
+      fx.black += 1 - smoothstep(0.2, 0.85, film.intro)
+    }
     camera.position.copy(pos.current)
     camera.up.set(0, 1, 0)
     camera.lookAt(at.current)

@@ -23,6 +23,8 @@ export const film = {
   sceneIndex: 0,
   scene: RANGES[0] as SceneRange,
   phase: 1 as 1 | 2 | 3 | 4 | 5,
+  /** Entry transition 0 → 1 (P1-02). 1 = settled; the camera rig and veil read it. */
+  intro: 1,
   /** true while the user is actively scrolling (for UI states). */
   scrolling: false,
   lastInput: 0,

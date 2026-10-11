@@ -6,7 +6,7 @@ const browser = await chromium.launch({ args: ['--enable-gpu', '--ignore-gpu-blo
 const page = await browser.newPage({ viewport: { width: 960, height: 540 } })
 await page.goto('http://localhost:5173/?debug')
 await page.waitForFunction(() => window.__yoki?.ui.getState().ready, null, { timeout: 120000 })
-await page.waitForTimeout(2500); await page.mouse.click(480, 270); await page.waitForTimeout(1200)
+await page.waitForTimeout(2500); await page.mouse.click(480, 270); await page.waitForFunction(() => window.__yoki?.film.intro >= 1, null, { timeout: 15000 })
 await page.evaluate((t) => window.__yoki.seek(t), t); await page.waitForTimeout(600)
 const info = await page.evaluate((ev) => {
   const g = window.__post.grade.uniforms.get('uExposure'); const orig = g.value

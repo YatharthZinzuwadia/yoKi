@@ -61,6 +61,7 @@ A normal scroll site moves DOM sections. yoKi has **one number, `film.t`** (film
 | Height marks | Drawn into a 2D canvas (pencil lines and handwriting font), used as a texture. | `House.tsx` |
 | Writing `yoKi` in light | The wordmark's SVG paths are sampled into 3D tubes. A draw-range reveals each stroke as the fingertip moves along it. | `src/scenes/p1/Name.tsx` |
 | Text and annotations | DOM, not WebGL. Each annotation is pinned to a named 3D point (`setAnchor`) and projected to the screen every frame. | `src/ui/Overlays.tsx`, `src/engine/anchors.ts` |
+| Entry transition | On click, CSS scales the sigil ×18 around its left eye (`transform-origin`) while `film.intro` runs 0→1 in 3 s. `CameraRig` offsets the camera back and up by `(1 − ease(intro))` and adds a black veil, so the 3D cave glides in behind the zoom. Scroll only unlocks at the end. | `src/ui/Loader.tsx`, `src/styles/app.css`, `src/gl/CameraRig.tsx` |
 | Sigil | SVG paths with `pathLength=1`, so "draw 0→1" is just `stroke-dashoffset`. Glow is a duplicated, blurred layer. | `src/ui/sigil/` |
 | Sound | Everything is synthesised once at entry into buffers (Karplus-Strong plucks, filtered noise winds, impulse-response reverb), then played by scroll position. | `src/audio/synth.ts`, `src/audio/engine.ts`, `src/audio/cues.ts` |
 

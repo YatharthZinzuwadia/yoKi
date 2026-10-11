@@ -37,6 +37,7 @@ console.log('ready in', ((Date.now() - t0) / 1000).toFixed(1), 's')
 await page.waitForTimeout(2600)
 await page.screenshot({ path: `${OUT}loader-ready.png` })
 await page.mouse.click(W / 2, H / 2)
+await page.waitForFunction(() => window.__yoki?.film.intro >= 1, null, { timeout: 15000 })
 await page.waitForTimeout(2200)
 
 let times = process.argv[2]?.split(',').map(Number)

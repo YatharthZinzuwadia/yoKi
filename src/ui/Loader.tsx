@@ -3,7 +3,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { audio } from '../audio/engine'
-import { useUI } from '../engine/director'
+import { film, useUI } from '../engine/director'
 import { easeInOutCubic, range } from '../engine/math'
 import { startScroll } from '../engine/scroll'
 import { Sigil, Wordmark, type SigilHandle, type WordmarkHandle } from './sigil/Sigil'
@@ -63,12 +63,25 @@ export function Loader() {
 
   const enter = async () => {
     if (phase !== 'waiting') return
+    // P1-02 — "through the sigil's eye": CSS zooms the sigil around its left eye while
+    // film.intro (0 → 1 over 3 s) lifts the black and settles the camera into the cave.
+    // Scroll stays locked until the camera has arrived, so the take never starts mid-move.
     setPhase('entering')
+    film.intro = 0
     await audio.unlock(useUI.getState().muted)
     audio.cue('enter')
+    audio.cue('breath', { gain: 0.5, delay: 1.3 })
     useUI.getState().enter()
-    startScroll()
-    window.setTimeout(() => setPhase('gone'), 1700)
+    const DUR = 3000
+    let start = 0
+    const step = (now: number) => {
+      if (!start) start = now
+      film.intro = Math.min(1, (now - start) / DUR)
+      if (film.intro < 1) requestAnimationFrame(step)
+      else startScroll()
+    }
+    requestAnimationFrame(step)
+    window.setTimeout(() => setPhase('gone'), 2600)
   }
 
   useEffect(() => {
