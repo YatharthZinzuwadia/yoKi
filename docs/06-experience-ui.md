@@ -4,7 +4,7 @@ The interface should almost disappear. There are two persistent pieces (a **curs
 
 ## 1. Loader (the sigil draws itself)
 
-Built in the spirit of mithilamakhana's preloader: the logo is the whole screen.
+Built in the spirit of the creator's own **mithilamantra.com** preloader: a small monoline logo alone on a plain field, held about 1 s, then dissolving into the site. The logo is the whole screen.
 
 1. **Ink field.** A single point of warm light appears at centre.
 2. The point **traces the sigil contour**. Its progress is the *real* loading progress (assets + shader compilation), so it is never a fake bar. The light leaves a bone-white line behind it.
@@ -23,7 +23,7 @@ Built in the spirit of mithilamakhana's preloader: the logo is the whole screen.
 5. **On click:**
    - The AudioContext unlocks (sound is **on by default**).
    - A breath of air sounds.
-   - The sigil **scales toward the camera** while the field fades (mithilamakhana's rise-and-scale reveal).
+   - The sigil **scales toward the camera** while the field fades (mithilamantra.com's rise, hold and scale reveal).
    - The camera passes through the contour's eye.
    - The contour unravels into the cave filament.
 
@@ -43,7 +43,7 @@ On desktop the system cursor is replaced by a **small steel ring** (the kada):
 
 ## 3. The nav pill (the only control)
 
-A small pill **bottom-centre**, like mithilamakhana's collapsing header turned into a dock.
+A small pill **bottom-centre**, like mithilamantra.com's header that collapses into a bordered pill, turned into a dock.
 
 - **Collapsed** (while scrolling): ~120 × 8 px. A hairline progress bar of the whole take, with five tick marks at phase boundaries. Semi-transparent.
 - **Expanded** (on hover, after ~1.5 s idle, at the very top, at the very end):

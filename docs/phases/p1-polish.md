@@ -239,6 +239,15 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
    - tick the task in this file.
 4. Keep `docs/guides/05-how-it-was-built.md` updated with *how* each new technique works (the creator is learning from it).
 
+## 3b. Session log
+
+| Date | What happened |
+|---|---|
+| **2026-10-12 00:07–00:18** | First polish session: this plan written; P1-02, P1-05, P1-06 (anchor), P1-12 (marks), P1-13 done. The session ended (plan limit). |
+| **2026-10-12 (resume)** | The creator rewound the conversation, which reset the working tree to v0.1 while git kept the commits. Restored with `git restore --source=HEAD --staged --worktree .` (v0.1 stays reachable at `1581284`). The creator re-sent the same playthrough feedback with: "document first, then plan, then work"; mithilamantra.com (not mithilamakhana) is his site, and its loader confirms the approach (small gold monoline lotus on cream, about 1 s hold, dissolve); recordings, photos and quotes come later, so placeholders are fine but flagged. **Next:** verify the restored items with screenshots, then P1-01 (hands), P1-04 (cave v2), P1-07 (walk through the photo), P1-08 (room), P1-14 (infographics), P1-10 (eyes), P1-11 (house), P1-09 (cabinet), P1-03 (sigil). |
+
+**Resume rule:** if `git status` shows many modified files right after a session starts, a rewind probably happened. Compare against `HEAD` before doing anything.
+
 ## 4. Progress
 
 - [ ] P1-01 hands
