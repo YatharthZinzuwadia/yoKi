@@ -23,6 +23,8 @@ export interface Look {
   veilBlack: number // 0..1 black-out
   bloodLeft: number // 0..1 the left-eye blood veil
   invert: number // 0..1 negative image
+  ao: number // ambient occlusion intensity (N8AO); 0 = off
+  aoRadius: number // AO radius in metres
 }
 
 export const DEFAULT_LOOK: Look = {
@@ -46,6 +48,8 @@ export const DEFAULT_LOOK: Look = {
   veilBlack: 0,
   bloodLeft: 0,
   invert: 0,
+  ao: 2.2,
+  aoRadius: 1.0,
 }
 
 export type LookKey = Partial<Look> & { u: number }

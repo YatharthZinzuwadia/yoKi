@@ -2,6 +2,7 @@
 // from the look/fog tracks + per-frame fx overrides, then renders the frame.
 
 import { useFrame, useThree } from '@react-three/fiber'
+import { N8AOPostPass } from 'n8ao'
 import { BloomEffect, EffectComposer, EffectPass, FXAAEffect, RenderPass } from 'postprocessing'
 import { useEffect, useMemo, useRef } from 'react'
 import { Color, Fog, HalfFloatType, type DirectionalLight, type HemisphereLight } from 'three'
@@ -41,13 +42,22 @@ export function PostFX() {
     const ink = new InkEffect()
     const grade = new GradeEffect()
     composer.addPass(new RenderPass(scene, camera))
+    // Ambient occlusion (N8AO, ISC licence): darkens creases, corners and contact points
+    // from the depth buffer, so walls, floors and objects read as one connected space.
+    const ao = new N8AOPostPass(scene, camera, 1280, 720)
+    ao.configuration.gammaCorrection = false // we stay linear until the grade pass
+    ao.configuration.aoSamples = 16
+    ao.configuration.denoiseSamples = 8
+    ao.configuration.denoiseRadius = 12
+    ao.configuration.distanceFalloff = 1.0
+    composer.addPass(ao)
     // FXAA on the raw render (MSAA + half-float + bloom is unreliable on some drivers),
     // then zero any NaN/Inf before anything blurs the image.
     composer.addPass(new EffectPass(camera, new FXAAEffect(), new SanitizeEffect()))
     composer.addPass(new EffectPass(camera, paint, bloom))
     composer.addPass(new EffectPass(camera, ink))
     composer.addPass(new EffectPass(camera, grade))
-    return { composer, paint, bloom, ink, grade }
+    return { composer, ao, paint, bloom, ink, grade }
   }, [gl, scene, camera])
 
   useEffect(() => {
@@ -108,6 +118,10 @@ export function PostFX() {
     const radiusCap = quality >= 3 ? 5 : quality === 2 ? 3 : 2
     P.paint.set(quality === 0 ? 0 : L[I.paint], Math.min(L[I.paintRadius], radiusCap))
     P.bloom.intensity = L[I.bloom]
+    P.ao.enabled = L[I.ao] > 0.01
+    P.ao.configuration.intensity = L[I.ao]
+    P.ao.configuration.aoRadius = L[I.aoRadius]
+    P.ao.configuration.halfRes = quality < 3
     P.ink.set(L[I.ink], L[I.inkColor], L[I.inkColor + 1], L[I.inkColor + 2], L[I.inkFar], Math.max(1, dpr * 0.9))
     const g = P.grade
     g.u('uExposure').value = L[I.exposure] + fx.exposure

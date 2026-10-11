@@ -1,0 +1,29 @@
+{
+  "name": "yoki_arm",
+  "comment": "yoKi, present day: 5'9\"-5'10\" (~176 cm), akhaada-type desi medium build, upright, slight belly, fair. MakeHuman age 0.5 = 25 yrs, 1.0 = 90 yrs.",
+  "macro": {
+    "gender": 1.0,
+    "age": 0.53,
+    "muscle": 0.62,
+    "weight": 0.72,
+    "height": 0.52,
+    "proportions": 0.5,
+    "race": {
+      "caucasian": 0.55,
+      "asian": 0.25,
+      "african": 0.2
+    }
+  },
+  "targets": {
+    "stomach/stomach-pregnant-incr": 0.2,
+    "torso/measure-waist-circ-incr": 0.3,
+    "torso/torso-scale-depth-incr": 0.25,
+    "torso/torso-scale-horiz-incr": 0.18,
+    "torso/measure-shoulder-dist-incr": 0.25,
+    "torso/torso-muscle-pectoral-incr": 0.25,
+    "neck/neck-scale-horiz-incr": 0.3
+  },
+  "out": "public/models/arm-adult.glb",
+  "part": "arm_r",
+  "subdivide": 1
+}

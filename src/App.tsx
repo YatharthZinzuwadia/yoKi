@@ -6,6 +6,9 @@ import { Debug } from './ui/Debug'
 import { Loader } from './ui/Loader'
 import { NavPill } from './ui/NavPill'
 import { Annotations, Statements, Threshold } from './ui/Overlays'
+import { Lab } from './lab/Lab'
+
+const LAB = new URLSearchParams(location.search).get('lab')
 
 function hasWebGL2() {
   try {
@@ -18,8 +21,9 @@ function hasWebGL2() {
 export default function App() {
   const [gl] = useState(hasWebGL2)
   useEffect(() => {
-    initScroll()
+    if (!LAB) initScroll()
   }, [])
+  if (LAB) return <Lab name={LAB} />
 
   if (!gl)
     return (

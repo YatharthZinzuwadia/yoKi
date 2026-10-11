@@ -1,0 +1,21 @@
+{
+  "name": "arm-child",
+  "comment": "POV right arm, MakeHuman age 0.13 (0.1875 = 11 yrs, 0.5 = 25 yrs)",
+  "macro": {
+    "gender": 1.0,
+    "age": 0.13,
+    "muscle": 0.45,
+    "weight": 0.6,
+    "height": 0.52,
+    "proportions": 0.5,
+    "race": {
+      "caucasian": 0.55,
+      "asian": 0.25,
+      "african": 0.2
+    }
+  },
+  "targets": {},
+  "out": "public/models/arm-child.glb",
+  "part": "arm_r",
+  "subdivide": 1
+}
