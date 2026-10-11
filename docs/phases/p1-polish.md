@@ -253,7 +253,7 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [ ] P1-10 eyes v2
 - [ ] P1-11 house legible
 - [ ] P1-12 height marks (**marks + brother column ✓**; real child hand waits on P1-01)
-- [ ] P1-13 steamed mirror
+- [x] P1-13 steamed mirror (bathroom, locked camera with zero-velocity arrival, canvas wipe-mask fog shader, generated teen reflection, drips; hand mesh upgrade comes with P1-01)
 - [ ] P1-14 infographics layer
 - [ ] P1-15 threshold polish
 - [ ] P1-16 sound pass
