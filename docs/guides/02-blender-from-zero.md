@@ -59,7 +59,7 @@ This is how the cast and the crowds are made.
    - gender, age, muscle, weight, height, proportions;
    - breast size, hips and other details in the "modifiers" lists.
 
-   For example, Mishti is 4'10½": set height low and weight medium-low.
+   For example, Panditaein is 4'10½": set height low and weight medium-low.
 5. **Rigging → Add standard rig** (needed to pose).
 6. **Ctrl+Tab** → Pose Mode. Click a bone, then **R** to rotate it. **Ctrl+Tab** returns to Object Mode.
 7. Export as in section 4.

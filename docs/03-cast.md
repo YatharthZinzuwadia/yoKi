@@ -1,9 +1,10 @@
 # 03 — Cast
 
-The names are display aliases (the creator already changed the real ones). Where the creator gave no description, one has been authored; he can rewrite any of it. All figures are stylised: painted 3D, silhouettes and partial views. No real photographs of real people are used.
+**All characters are fictional** (creator, 2026-10-12): the names and bodies are invented on purpose to protect real-world parallels. Every character is an adult, 19 or older, whenever anything intimate is shown. Sensuality is in scope; explicit sex is not depicted. Where the creator gave no description, one has been authored; he can rewrite any of it. All figures are stylised: painted 3D, silhouettes and partial views. No real photographs of real people are used.
 
 ## yoKi (Yatharth)
 
+- **Body:** 5'9"–5'10", akhaada-type desi medium build, upright posture, slight belly, fair skin, above-average handsome, classic Gujju look (see `02-sigil-and-identity.md`).
 - **POV for most of the film.** We see his hands, forearms, his shadow, and reflections in glass and puddles.
 - **Seen whole only once:** in the summit reveal, when the camera leaves his eyes.
 - **Ages across the film:**
@@ -19,7 +20,7 @@ The names are display aliases (the creator already changed the real ones). Where
 - **Markers:** see `02-sigil-and-identity.md` (kada, thread and capsule, left-eye scar, left-arm bite, Rajwadi moustache, beard).
 - **Temperament on screen:** composed, proud, quick to laugh, quick to anger, protective, private. He doesn't explain himself.
 
-## Noor — Relationship A (2022–2023)
+## Sukki — Relationship A (2022–2023)
 
 - **Look:** 5'5". Thick, curvy, plump and well-endowed: soft heavy curves and wide hips. Long dark hair, kohl-lined eyes, gold hoops. Warm, generous body language. Loves oversized hoodies over fitted clothes, and perfume that lingers.
 - **The relationship:**
@@ -29,7 +30,7 @@ The names are display aliases (the creator already changed the real ones). Where
 - **The cost:** on the day of the send-off he crashes the 14-day-old **Royal Enfield Hunter 350** (see Phase 04).
 - **Visual signature:** cold dawn blue against warm gold. Airport glass. The shoes.
 
-## Mishti — Relationship B (Jan 2023 → ~mid 2025, ~2.5 years)
+## Panditaein — Relationship B (Jan 2023 → ~mid 2025, ~2.5 years)
 
 - **Look:** **4'10½"**, petite "shawty". Thin-to-medium build with real curves. Big expressive eyes, a fringe, oversized tees worn as dresses. She stands on tiptoe to kiss him and her head reaches his chest.
 - **The relationship:**
@@ -38,10 +39,10 @@ The names are display aliases (the creator already changed the real ones). Where
   - He couldn't open up, and she told him to **take it to a therapist, not to her**. That sentence became a wall.
   - Arguments in small rooms. Silences at dinner.
 - **The end:** **he ended it**, then helped her move on, carrying her boxes down the stairs himself.
-- **Timeline:** overlaps Noor's period, and the work shows that overlap honestly as an infographic, without explaining it.
+- **Timeline:** overlaps Sukki's period, and the work shows that overlap honestly as an infographic, without explaining it.
 - **Visual signature:** warm peach and tungsten pink fading to grey. Two parallel lines of light that run together for a long time and then stop aligning.
 
-## Laali — the present relationship
+## Shivi — the present relationship
 
 - **Look:**
   - 5'7". Medium-length dark hair with **red ends**, and the hottest body in the film: toned, curved and confident.
@@ -68,7 +69,7 @@ The names are display aliases (the creator already changed the real ones). Where
 ## The Group (since ~2020)
 
 - **Look:** six to eight silhouettes around tea-stall benches, a terrace and car bonnets.
-- **Arc:** laughter, phones, plans; then conflicts (some about Laali, some about Kshitij, some about yoKi himself). The circle breaks into shouting and empties.
+- **Arc:** laughter, phones, plans; then conflicts (some about Shivi, some about Kshitij, some about yoKi himself). The circle breaks into shouting and empties.
 - **Depiction:** faces are simple painted planes, recognisable by posture.
 
 ## The First Betrayal — the 2019 basketball girlfriend ("K.")
@@ -82,7 +83,7 @@ The names are display aliases (the creator already changed the real ones). Where
 - **Look:** in silhouette, the most beautiful figure in the film: sun behind her, a dress moving in wind, bare shoulders, hair lifting.
 - **Role:**
   - She is solace, the reason to walk into the light.
-  - Her face is never fully seen. When she turns, it **flickers through Noor, Mishti, Laali and K.**: love's composite.
+  - Her face is never fully seen. When she turns, it **flickers through Sukki, Panditaein, Shivi and K.**: love's composite.
   - She embraces him, then **pushes him off the cliff**. It is a deliberate push, with both hands flat on his chest.
   - She watches him fall without expression.
 - **What the push means:** symbolically, betrayal in love → the descent into madness.

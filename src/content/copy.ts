@@ -33,11 +33,11 @@ export const STATEMENTS: Statement[] = [
   { scene: 'p3.fight', from: 4.3, to: 5.8, text: 'The same hands that held people together.' },
   { scene: 'p3.ward', from: 4.8, to: 6.8, text: 'I learned to live with the voices. Some days I still negotiate.' },
   // 04 LOVE, LOYALTY & THE COST OF STAYING
-  { scene: 'p4.noor', from: 4.2, to: 5.9, text: 'I knew. I stayed. Then I let her go properly.' },
-  { scene: 'p4.mishti', from: 3.0, to: 4.6, text: 'Take it to a therapist. Not me.', quote: true, at: 'right' },
-  { scene: 'p4.mishti', from: 6.0, to: 7.8, text: 'I wanted a future with her. I just couldn’t hand her the key to me.' },
+  { scene: 'p4.sukki', from: 4.2, to: 5.9, text: 'I knew. I stayed. Then I let her go properly.' },
+  { scene: 'p4.panditaein', from: 3.0, to: 4.6, text: 'Take it to a therapist. Not me.', quote: true, at: 'right' },
+  { scene: 'p4.panditaein', from: 6.0, to: 7.8, text: 'I wanted a future with her. I just couldn’t hand her the key to me.' },
   { scene: 'p4.group', from: 5.0, to: 6.9, text: 'Some of them left me. Some of them, I left. I’d do it again.' },
-  { scene: 'p4.laali', from: 3.6, to: 5.4, text: 'You’re not a bad person. You’re just misunderstood.', quote: true },
+  { scene: 'p4.shivi', from: 3.6, to: 5.4, text: 'You’re not a bad person. You’re just misunderstood.', quote: true },
   // 05 THE QUIET THRONE
   { scene: 'p5.landing', from: 2.2, to: 3.9, text: 'I fell. I got up. That’s all that happened.' },
   {
@@ -104,7 +104,7 @@ export const THRESHOLDS: Threshold[] = [
   { scene: 'p1.name', from: 3.9, to: 6.0, ignite: ['kada'], keep: [], backdrop: '#efe4cf' },
   { scene: 'p2.converge', from: 3.7, to: 6.0, ignite: ['thread', 'capsule'], keep: ['kada'], backdrop: '#0e1a2b' },
   { scene: 'p4.corridor', from: 0.0, to: 2.2, ignite: ['scar'], keep: ['kada', 'thread', 'capsule'], backdrop: '#1a0f1f' },
-  { scene: 'p4.laali', from: 2.3, to: 3.5, ignite: ['bite'], keep: ['kada', 'thread', 'capsule', 'scar'], backdrop: '#b0002a', mini: true },
+  { scene: 'p4.shivi', from: 2.3, to: 3.5, ignite: ['bite'], keep: ['kada', 'thread', 'capsule', 'scar'], backdrop: '#b0002a', mini: true },
   { scene: 'p5.madness', from: 0.0, to: 1.8, ignite: [], keep: ['kada', 'thread', 'capsule', 'scar', 'bite'], backdrop: '#000000', shattered: true },
   {
     scene: 'p5.summit',

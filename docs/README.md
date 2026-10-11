@@ -9,14 +9,14 @@
 | [`00-action-plan.md`](00-action-plan.md) | Status, milestones, what's next, what (optionally) needs the creator |
 | [`01-vision.md`](01-vision.md) | What the work is, rating and register, the emotional line, principles |
 | [`02-sigil-and-identity.md`](02-sigil-and-identity.md) | The kada, the thread, the scar, the bite, the moustache; faith; the sigil and wordmark system |
-| [`03-cast.md`](03-cast.md) | yoKi, Noor, Mishti, Laali, Kshitij, the group, K., Her, family |
+| [`03-cast.md`](03-cast.md) | yoKi, Sukki, Panditaein, Shivi, Kshitij, the group, K., Her, family |
 | [`04-story-spine.md`](04-story-spine.md) | The one-shot, all transitions, pacing, the line |
 
 ## The film, scene by scene
 
 | Phase | File |
 |---|---|
-| 01 · The Name | [`phases/p1-the-name.md`](phases/p1-the-name.md) |
+| 01 · The Name | [`phases/p1-the-name.md`](phases/p1-the-name.md) · **polish plan v2: [`phases/p1-polish.md`](phases/p1-polish.md)** |
 | 02 · The Many | [`phases/p2-the-many.md`](phases/p2-the-many.md) |
 | 03 · The Law of Force | [`phases/p3-the-law-of-force.md`](phases/p3-the-law-of-force.md) |
 | 04 · Love, Loyalty & the Cost of Staying | [`phases/p4-love-loyalty.md`](phases/p4-love-loyalty.md) |
@@ -41,5 +41,6 @@
 | [`guides/02-blender-from-zero.md`](guides/02-blender-from-zero.md) | Optional: Blender basics, MakeHuman, export |
 | [`guides/03-edit-content.md`](guides/03-edit-content.md) | Change words, timing, images, signature, laugh, looks |
 | [`guides/04-deploy-free.md`](guides/04-deploy-free.md) | Cloudflare Pages / Netlify |
+| [`guides/05-how-it-was-built.md`](guides/05-how-it-was-built.md) | **Learn from it:** every technique explained with file pointers |
 
 The original v2.0 pack is preserved untouched as `../yoki-mythobiography-v2.0-final-vision-pack.zip`.

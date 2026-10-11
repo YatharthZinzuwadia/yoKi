@@ -55,12 +55,12 @@ export const SCENES: SceneDef[] = [
 
   // ── 04 LOVE, LOYALTY & THE COST OF STAYING ───────────────────
   { id: 'p4.corridor', phase: 4, title: 'The corridor of doors', length: 6, source: 'SYMBOLIC' },
-  { id: 'p4.noor', phase: 4, title: 'Noor · heat', length: 6, source: 'RECONSTRUCTION' },
-  { id: 'p4.sendoff', phase: 4, title: 'Noor · the send-off', length: 5, source: 'MEMORY' },
+  { id: 'p4.sukki', phase: 4, title: 'Sukki · heat', length: 6, source: 'RECONSTRUCTION' },
+  { id: 'p4.sendoff', phase: 4, title: 'Sukki · the send-off', length: 5, source: 'MEMORY' },
   { id: 'p4.crash', phase: 4, title: 'The crash', length: 6, source: 'MEMORY' },
-  { id: 'p4.mishti', phase: 4, title: 'Mishti · the long parallel', length: 8, source: 'RECONSTRUCTION' },
+  { id: 'p4.panditaein', phase: 4, title: 'Panditaein · the long parallel', length: 8, source: 'RECONSTRUCTION' },
   { id: 'p4.group', phase: 4, title: 'The group · Kshitij', length: 7, source: 'COMPOSITE' },
-  { id: 'p4.laali', phase: 4, title: 'Laali · the bite', length: 6, source: 'RECONSTRUCTION' },
+  { id: 'p4.shivi', phase: 4, title: 'Shivi · the bite', length: 6, source: 'RECONSTRUCTION' },
   { id: 'p4.clearing', phase: 4, title: 'The clearing', length: 5, source: 'SYMBOLIC' },
   { id: 'p4.push', phase: 4, title: 'The push', length: 5, source: 'SYMBOLIC' },
 

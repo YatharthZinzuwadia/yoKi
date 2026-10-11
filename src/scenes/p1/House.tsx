@@ -122,7 +122,7 @@ const heightsPromise: Promise<Texture> =
         // marks: [height px from floor, label, demand]
         const marks: [number, string, string][] = [
           [520, '4\'1"', 'top 3'],
-          [640, '4\'6"', 'doctor?'],
+          [640, '4\'6"', 'engineer.'],
           [760, '5\'0"', 'be the elder'],
           [880, '5\'4"', 'don\'t cry'],
           [1010, '5\'8"', 'make us proud'],

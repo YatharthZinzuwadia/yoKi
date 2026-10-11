@@ -41,3 +41,18 @@ Everything in the phase docs' "Assets" sections. Every generated or downloaded f
 
 - Generated images may depict the cast. They are stylised stand-ins, never real photos of real people.
 - No real person's photo is used for training, conditioning or likeness.
+
+## Placeholder register
+
+Things that stand in for the creator's real material. The creator said (2026-10-12) recordings and photos come later, so every placeholder is generated or sampled and **marked in code with `// PLACEHOLDER(creator):`** (search for it).
+
+| Placeholder | Current stand-in | Where | Replace with |
+|---|---|---|---|
+| The summit laugh | Procedural breath/formant bursts | `src/audio/synth.ts` (planned `laugh()`) | His recorded laugh → `public/audio/laugh.*` |
+| Guitar / harmonium / Casio | Karplus-Strong plucks, synthesised reed and square tones | `src/audio/synth.ts` | His recordings → `public/audio/` |
+| Takiya-kalaams | Empty (nothing shown) | `src/content/copy.ts` → `QUOTES` | His phrases, any language |
+| Body / silhouette | Assumed from his description: 5'9"–5'10", akhaada medium build, slight belly, fair, classic Gujju look | figures and sigil | Silhouette photos (front/side) |
+| Sigil likeness | Drawn monoline, being re-traced from generated references (P1-03) | `src/ui/sigil/paths.ts` | His approval / his own drawing |
+| Wordmark `yoKi` | Drawn monoline, capital K | `src/ui/sigil/paths.ts` → `WORDMARK` | Optional: his handwriting |
+| All photographs | RealVisXL generations | `public/images/**` | Real photos if he ever wants them (same filenames) |
+| Medal / certificate counts | Authored (23 / 41 / 9) | `src/content/copy.ts` | Real counts |

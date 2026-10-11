@@ -1,5 +1,7 @@
 # Phase 01 — THE NAME · *born into the gaze*
 
+> **v2 update (2026-10-12):** after the creator's playthrough, the polish plan in [`p1-polish.md`](p1-polish.md) supersedes this file wherever they differ: cave art replaces the found objects, the modelling portrait is the anchor, you walk through the photograph, the gallery becomes a real room with a medal cabinet, varied eyes, a legible house, and a steamed mirror for the name.
+
 **Ages:** 0 → 15  
 **Job:** He was looked at before he could look back. A child who was framed, flashed and expected, then a teen who takes the frame and writes his own name in it.  
 **Palette:**
@@ -84,7 +86,7 @@ The loader's sigil has traced itself and `yoKi` has signed itself (see `06-exper
   | Height | Written beside it |
   |---|---|
   | 4'1" | `top 3` |
-  | 4'6" | `doctor?` |
+  | 4'6" | `engineer.` |
   | 5'0" | `be the elder` |
   | 5'4" | `don't cry` |
 

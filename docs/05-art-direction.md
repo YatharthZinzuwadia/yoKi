@@ -42,11 +42,11 @@ The film is **not uniformly dark**. It breathes between ink and daylight.
 | 03 fight | sodium | **blood red** | 30% | medium | heavy |
 | 03 ward | ward green-white | text black | 50% flat, sick | high | none |
 | 04 corridor | plum | four door colours | 15% | medium | thin |
-| 04 Noor | tungsten, dawn blue/gold | gold hoops | 35 → 60% | medium | soft |
+| 04 Sukki | tungsten, dawn blue/gold | gold hoops | 35 → 60% | medium | soft |
 | 04 crash | asphalt, headlight white | blood | 40% | high + motion blur | — |
-| 04 Mishti | peach → grey | tungsten pink | 40 → 25% | medium | soft |
+| 04 Panditaein | peach → grey | tungsten pink | 40 → 25% | medium | soft |
 | 04 group | sick green, smoke | fluorescent | 30% | high | thin |
-| 04 Laali | crimson, black | neon red | 20% | medium | soft |
+| 04 Shivi | crimson, black | neon red | 20% | medium | soft |
 | 04 clearing | **white-gold, meadow green** | peacock blue-green | **blown out → 90%** | low | none |
 | 04 fall | sky → black | — | 90 → 0% | — | — |
 | 05 madness | inverted, bruise, flesh | sick yellow | strobing ≤3 Hz | high | jittering |
@@ -120,7 +120,7 @@ Principles are borrowed, never assets or layouts.
 |---|---|
 | **The Monolith Project** (themonolithproject.net; Three.js/R3F/GSAP; illustration by 林遭遇; Moebius and *2001* inspired) | Illustration-into-3D shaders, 13 scenes with wipes, zoom blurs and 2D↔3D object matches, mouse-reactive particles, 60 fps. |
 | **Artisans d'Idées** (Immersive Garden, sound by Mooders) | "Click to illuminate", forms rising out of shadow, sound driven by camera state, a short film with chapters. |
-| **mithilamakhana.com** (the creator's own) | Logo-only preloader that rises, holds, then scales into the site; a header that collapses into a pill. |
+| **mithilamantra.com** (the creator's own) | Logo-only preloader that rises, holds, then scales into the site; a header that collapses into a pill. |
 | **Igloo Inc** (Abeto), **Lusion**, **Active Theory**, **Bruno Simon** | Polish, interaction feel, performance discipline. |
 | **The Boat** (SBS) | Scroll-driven graphic storytelling with words in the image. |
 

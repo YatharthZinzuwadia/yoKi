@@ -26,7 +26,7 @@ v1 ships with a **procedural audio engine**: all sound is synthesised in the bro
 | 01 | cave tone, drips, gallery hush, house fan | shutters, flash whine, applause swell, slow clap, plate shatter, glass squeak (writing) | low pads, no melody |
 | 02 | wind, lark, court echo, CRT whine | pencil, paper folds, guitar plucks, harmonium breath, Casio notes, ball thunks, squeak, swish, dance hits, floppy seek, dial-up, keys | **the motif** appears; light rhythm in the stage beat |
 | 03 | night street, club bass (filtered), parking hum, ward fluorescence | temple bell, phone vibrations, punches, shutter crash, tinnitus, whispers, heartbeat | harmonic instability, bass pulses |
-| 04 | tungsten room, airport hall, terrace party, neon buzz, meadow wind | phone shatter, bike thump, horn, crash, 40 m scrape, glass, wheel ticks, flies, nails on skin, line-snap | detuning duet (Mishti), **the warm major chord** in the clearing, cut mid-note |
+| 04 | tungsten room, airport hall, terrace party, neon buzz, meadow wind | phone shatter, bike thump, horn, crash, 40 m scrape, glass, wheel ticks, flies, nails on skin, line-snap | detuning duet (Panditaein), **the warm major chord** in the clearing, cut mid-note |
 | 05 | madness whispers, valley wind, flies, crows | impact crack, reversed chord, breath, thread creaks and cuts, distant thuds, the laugh | silence → a single sustained tone at the summit |
 
 ## The laugh

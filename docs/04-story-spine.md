@@ -17,7 +17,7 @@ One camera, one unbroken take, five phases. This is the master overview; each ph
 | 01 | **THE NAME** — *born into the gaze* | 0 → 15 | Cave → gallery of frames → house of glass | Velvet black, paper cream, flash white, sepia, brass | A child's smile in a giant frame, lit by flashes; eyes in the walls | (name claimed) → **kada** |
 | 02 | **THE MANY** — *every extreme, the same man* | 8 → 22 | A paper world that unfolds into instruments, a court, a stage and a machine | **Moebius brights:** paper, graphite, court orange, teal, cobalt, sun yellow | One line becoming graphite, string, court line, dance arc, circuit | **thread** |
 | 03 | **THE LAW OF FORCE** — *the centre of the room* | 17 → 24 | Night street → Ballers Club → doors of people who call → a fight → the treatment ward | Sodium orange, deep blue, club magenta, blood red | A shadow bigger than the man; blood on sodium-lit asphalt; faces in the ward walls | — |
-| 04 | **LOVE, LOYALTY & THE COST OF STAYING** — *the ones who left* | 18 → now | Corridor of doors → Noor → the crash → Mishti → the group → Laali → the clearing → the cliff | Per thread: dawn blue/gold, peach/tungsten, sick green, crimson; the clearing overexposed gold-green | Shoes at the airport glass; asphalt dragging skin; two lines diverging; empty seats; a bite; a woman's two hands on his chest | **eye scar**, **bite** |
+| 04 | **LOVE, LOYALTY & THE COST OF STAYING** — *the ones who left* | 18 → now | Corridor of doors → Sukki → the crash → Panditaein → the group → Shivi → the clearing → the cliff | Per thread: dawn blue/gold, peach/tungsten, sick green, crimson; the clearing overexposed gold-green | Shoes at the airport glass; asphalt dragging skin; two lines diverging; empty seats; a bite; a woman's two hands on his chest | **eye scar**, **bite** |
 | 05 | **THE QUIET THRONE** — *the man who chooses what remains* | now | Madness pit → landing → fragments → the cut → the climb over the dead → the summit | Negative/inverted → ash grey → Gita cream with Krishna-blue → rust and bone → moon cyan | Mountain of corpses, him at ease on top, crescent moon, ash falling | shattered → **moustache + beard + all** |
 
 ## Transitions (the take never breaks)
@@ -38,7 +38,7 @@ One camera, one unbroken take, five phases. This is the master overview; each ph
 | 02 → 03 | The line thickens into a black thread. The **thread sigil** ignites. The thread becomes the edge of a shadow on a street wall at night. |
 | 03.x → 03.y | Doors, crowds, a strobe blackout (hidden cut), a shutter slamming down (hidden cut). |
 | 03 → 04 | In the ward, a single thread of light hangs between the walls. The camera follows it into a corridor of coloured doors. The **eye-scar sigil** ignites. |
-| Inside 04 | Each door is entered and exited through its own frame; the crash ends in a white-out, and the camera wakes in Mishti's corridor (the "after"). |
+| Inside 04 | Each door is entered and exited through its own frame; the crash ends in a white-out, and the camera wakes in Panditaein's corridor (the "after"). |
 | 04 → 05 | She pushes; the camera tumbles over the cliff; the line snaps; there is a fall through dark. The **shattered sigil** flickers mid-fall. Impact. |
 | 05.x | Madness ends in a single breath (the camera's own blink). The landing is a slow settle. The climb is continuous. |
 | 05 → finale | The camera rises out of his eyes, orbits and reveals him. Pull back. The **full sigil** forms in the sky beside the moon. |

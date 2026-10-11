@@ -32,7 +32,7 @@ The summit also keeps one **far ember** of the clearing's gold (`#FFC86B`) at th
 - **Missing time:** the frame **skips** (missing frames, as in the 2019 month). The scroll moves, but some moments simply aren't there. Clock faces with no hands. A calendar where a whole month is torn out.
   - Annotation: `one month · no memory`.
 - **The walls are faces:**
-  - Every face from the film pushes through stretched skin-like walls: the flash crowd, the man in the white shirt, Kshitij, Noor, Mishti, Laali, K. Their mouths move.
+  - Every face from the film pushes through stretched skin-like walls: the flash crowd, the man in the white shirt, Kshitij, Sukki, Panditaein, Shivi, K. Their mouths move.
   - **Voices as text** crawl over everything, in every language he thinks in (English, Hindi, Gujarati transliterated):
 
     ```
@@ -99,7 +99,7 @@ The summit also keeps one **far ember** of the clearing's gold (`#FFC86B`) at th
 
 - **What we see:**
   - We stand. **Black threads** run from our body (wrists, chest, the back of the neck) back down the slope into the dark. Dozens of them.
-  - Each thread has a small knot, and each knot holds a tiny fragment: a bit of Noor's gold hoop, a chai glass, a bit of white shirt, a fishnet strand, a ponytail band, a microphone, a flashbulb. Pulled tight, they tug us backward.
+  - Each thread has a small knot, and each knot holds a tiny fragment: a bit of Sukki's gold hoop, a chai glass, a bit of white shirt, a fishnet strand, a ponytail band, a microphone, a flashbulb. Pulled tight, they tug us backward.
   - The **Gita's pages turn by themselves** in the wind and stop on 2.47, seen in Devanagari, small, and never translated on screen:
     > कर्मण्येवाधिकारस्ते मा फलेषु कदाचन ।  
     > मा कर्मफलहेतुर्भूर्मा ते सङ्गोऽस्त्वकर्मणि ॥
@@ -126,9 +126,9 @@ The summit also keeps one **far ember** of the clearing's gold (`#FFC86B`) at th
   - Our **POV hands grab** wrists, ankles and hair to pull us up. The bodies give and shift under our weight (physics), and a head lolls.
 - **Faces in the pile** (we pass them, hold for a beat, and climb on):
   - the woman from the clearing, face up;
-  - **Noor**, gold hoop still in her ear;
-  - **Mishti**, tiny, curled;
-  - **Laali**'s fishnets on a pale leg (Laali is the present, so she is in the pile half-buried: alive? dead? the image doesn't decide);
+  - **Sukki**, gold hoop still in her ear;
+  - **Panditaein**, tiny, curled;
+  - **Shivi**'s fishnets on a pale leg (Shivi is the present, so she is in the pile half-buried: alive? dead? the image doesn't decide);
   - **Kshitij**'s afro in the dust, his face slack;
   - the man in the white shirt, red;
   - the flash crowd, still holding cameras.

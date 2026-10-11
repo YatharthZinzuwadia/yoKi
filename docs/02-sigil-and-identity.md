@@ -8,8 +8,8 @@ These are the marks and objects of utmost significance to yoKi. Wherever his bod
 |---|---|---|---|
 | **Kada** | Right wrist | A plain steel/iron kada (bangle), worn for years. Slightly scuffed, with a dull grey sheen and one bright specular line. It sits loose and slides when the hand moves. | The oldest thing he wears. A ring that holds. The hand that draws, plays, dribbles, codes, fights and signs `yoKi` wears it. |
 | **Hanumanji's thread** | Neck | A **black thread** necklace with a small trinket: a **cylinder with oval/dome ends** (a capsule-shaped tabeez). Matte black thread; the capsule is dull metal with a faint sindoor-orange trace in its seam. | Protection and strength. Hanuman is Sankat Mochan, the one called when there's a crisis: Phase 03's "the one people call". |
-| **Eye scar** | Below the **left** eye | A short pale scar under the left eye from the Hunter 350 accident: headlight glass passed close to the eye. | The road took a piece of him on the day he sent Noor off. |
-| **Bite mark** | **Left** shoulder / tricep | A faint crescent of tooth marks from his current girlfriend (Laali), a playful bite. In the present it is a fresh-looking mark; in the sigil it is two small dotted arcs. | Love that marks. Play with teeth in it. |
+| **Eye scar** | Below the **left** eye | A short pale scar under the left eye from the Hunter 350 accident: headlight glass passed close to the eye. | The road took a piece of him on the day he sent Sukki off. |
+| **Bite mark** | **Left** shoulder / tricep | A faint crescent of tooth marks from his current girlfriend (Shivi), a playful bite. In the present it is a fresh-looking mark; in the sigil it is two small dotted arcs. | Love that marks. Play with teeth in it. |
 | **Rajwadi moustache** | Face | A full moustache with **upward-curled tips**, Rajput style, worn since his late teens. Pride, literally worn. | The crown that isn't a crown. The only "regalia" in the final image. |
 | **Beard** | Face | A dense, well-kept full beard that "always stays on". | Constancy. Adulthood. Him. |
 
@@ -30,7 +30,7 @@ These are the marks and objects of utmost significance to yoKi. Wherever his bod
 
 **Clothing (present day):** plain dark contemporary: black/charcoal tee or shirt, dark jeans or trousers, worn boots or sneakers. No costume, crown or cape. At the summit everything is dusted with ash, and the hems are dark with dried blood that isn't his.
 
-**Build and height (assumed until the creator corrects it):** ~5'11", athletic and solid: ex-national basketball, two years of gym, broad shoulders. Short dark hair, often pushed back.
+**Build and look (creator, 2026-10-12):** 5'9"–5'10". An *akhaada*-type desi medium build: solid wrestler-ish frame, not gym-athletic, with **good upright posture** and a little softness at the stomach from Indian food and habits. **Fair-skinned**, above-average handsome, with a classic Gujju look. Short dark hair, often pushed back. Every figure, silhouette, hand and the sigil follows this.
 
 ## 2. The Sigil: an emblem that becomes him
 
@@ -56,8 +56,8 @@ The sigil accumulates his marks across the film. Each chapter threshold shows th
 | **Loader / Entry** | Bare contour drawn by a moving point of light as assets load (real progress). The `yoKi` wordmark signs itself underneath. | contour | bone white |
 | **Phase 01 → 02 threshold** | The name has been claimed. The kada ignites as the right hand finishes signing. | **kada** | steel-white with a warm core |
 | **Phase 02 → 03 threshold** | The line through every medium ties at the neck. | **thread + capsule** | black thread rim-lit sindoor orange |
-| **Phase 04 opener** | Before Noor's door. | **eye scar** | cold dawn blue → blood red |
-| **Inside Phase 04, before Laali's room** | An inline mini-sigil in the corner of frame, about 2 s. | **bite** | crimson |
+| **Phase 04 opener** | Before Sukki's door. | **eye scar** | cold dawn blue → blood red |
+| **Inside Phase 04, before Shivi's room** | An inline mini-sigil in the corner of frame, about 2 s. | **bite** | crimson |
 | **Phase 05 opener (after the fall)** | **Shattered:** the contour breaks into jittering segments, the marks flicker out of order, and chromatic tearing runs through it. This is madness. | everything, wrongly | negative/inverted |
 | **Finale** | Whole again. **Moustache and beard** ignite last, then every mark burns together. A thin crescent moon appears above the head. Hold, then the wordmark. | **moustache + beard + all** | ash white, bone, moon-cyan rim, one ember of the clearing's gold |
 
@@ -79,10 +79,11 @@ The threshold is **scroll-scrubbed** (it plays forward and back with scroll), ne
 
 ## 4. Where the markers appear in the film
 
-- **Phase 01:** child hands (no kada yet; it arrives later in the same wrist position). The teen's hand writing `yoKi` wears the kada.
+- **Rule: wherever his right hand appears, at any age, the kada is on it.** It has always been there.
+- **Phase 01:** child hands wear a small kada; the teen's hand writing `yoKi` wears it too.
 - **Phase 02:** POV right hand with the kada on every action: pencil, strings, ball, keyboard, screwdriver.
 - **Phase 03:** the thread swings into frame when he leans in, and catches sodium light. The kada works as a knuckle weight in the fight.
 - **Phase 04:**
   - The eye scar is *made* in the Hunter 350 crash: a blood veil on the left of frame, then the scar is present in every later reflection.
-  - The bite happens in Laali's room.
+  - The bite happens in Shivi's room.
 - **Phase 05:** at the summit reveal, all markers are visible in rim light. The moustache tips are the brightest edges on the figure after the moon.

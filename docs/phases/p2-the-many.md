@@ -66,7 +66,7 @@
   - A **ball bounces in** from off-frame: real physics, with a squash on contact and dust kicked from the boards.
   - The POV hand takes it and **dribbles**: scroll drives the dribble rhythm, and the kada flashes on every bounce.
   - The camera **drives to the hoop**. On the climax beat of the scroll, there's a low jump and the ball leaves the hand.
-  - His old, worn shoes squeak on the boards. (The gifted Adidas belong to Noor's thread in Phase 04.)
+  - His old, worn shoes squeak on the boards. (The gifted Adidas belong to Sukki's thread in Phase 04.)
 - **Annotations:**
   - `national level · age 15–16`
   - a diagram overlay of a court play drawn in chalk lines that then animates, like a coach's whiteboard.
@@ -90,7 +90,7 @@
 
 - **What we see:**
   - A child's bedroom floor at night. A **beige PC tower lies open**, its fan dusty, ribbon cables everywhere, a CRT humming, floppies scattered.
-  - A **big adult hand** (the father) guides the child's hand with a screwdriver. The child's hand has no kada; the father's watch glints.
+  - A **big adult hand** (the father) guides the child's hand with a screwdriver. The child's hand wears its small kada; the father's watch glints.
   - Pixel light from an old game flickers on the wall.
   - The CRT shows a spinning globe that **zooms down from space to Ahmedabad** (the Google Earth memory), stylised and not branded.
 - **The internet bill:** taped to the monitor, a phone bill with a ridiculous number circled in red pen.
