@@ -246,11 +246,13 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 | **2026-10-12 00:07–00:18** | First polish session: this plan written; P1-02, P1-05, P1-06 (anchor), P1-12 (marks), P1-13 done. The session ended (plan limit). |
 | **2026-10-12 (resume)** | The creator rewound the conversation, which reset the working tree to v0.1 while git kept the commits. Restored with `git restore --source=HEAD --staged --worktree .` (v0.1 stays reachable at `1581284`). The creator re-sent the same playthrough feedback with: "document first, then plan, then work"; mithilamantra.com (not mithilamakhana) is his site, and its loader confirms the approach (small gold monoline lotus on cream, about 1 s hold, dissolve); recordings, photos and quotes come later, so placeholders are fine but flagged. **Next:** verify the restored items with screenshots, then P1-01 (hands), P1-04 (cave v2), P1-07 (walk through the photo), P1-08 (room), P1-14 (infographics), P1-10 (eyes), P1-11 (house), P1-09 (cabinet), P1-03 (sigil). |
 
+- **2026-10-18 (resume #2)** — second rewind: the working tree had been reset to an old snapshot (all modified files shared one mtime, Noor/Mishti/Laali names back, P1-01 files missing). Restored with `git restore --source=HEAD --staged --worktree .` (the rewound diff is kept in the session scratchpad). Survivors from the lost, uncommitted P1-04 attempt: `src/scenes/p1/caveLayout.ts` and the `rock060`/`rock061` textures. The creator re-sent the same feedback, which this plan already covers. **This session:** P1-04 → P1-07 → P1-08 → P1-14 → P1-10 → P1-11 → P1-09 → P1-03 → P1-06 → P1-12, **committing after every task** (commits survive rewinds; uncommitted edits to tracked files do not).
+
 **Resume rule:** if `git status` shows many modified files right after a session starts, a rewind probably happened. Compare against `HEAD` before doing anything.
 
 ## 4. Progress
 
-- [ ] P1-01 hands
+- [x] P1-01 hands (MPFB2 bodies → POV arms adult/teen/child/baby via headless Blender, 2-bone IK, kada on wrist — commit b75e5ac)
 - [x] P1-02 entry transition (sigil zooms through its left eye; `film.intro` 0→1 over 3 s lifts the black and glides the camera in; scroll unlocks on arrival)
 - [ ] P1-03 sigil likeness + idle
 - [ ] P1-04 cave v2
