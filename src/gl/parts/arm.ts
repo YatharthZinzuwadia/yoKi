@@ -85,6 +85,8 @@ export interface ArmRig {
   place(a: PlaceArgs): void
   /** World position of a fingertip (after place/setPose). */
   tip(f: Finger, out: Vector3): Vector3
+  /** Place the arm so fingertip `f` touches `target` (iterative; same args as place minus wrist). */
+  solveTip(f: Finger, target: Vector3, a: Omit<PlaceArgs, 'wrist'>, iterations?: number): void
   /** Lengths (m) of the upper arm and forearm, for framing. */
   lengths: { upper: number; fore: number; hand: number }
   bones: Record<string, Bone>
@@ -94,6 +96,7 @@ export interface ArmRig {
 const _v1 = new Vector3(), _v2 = new Vector3(), _v3 = new Vector3(), _v4 = new Vector3()
 const _q1 = new Quaternion(), _q2 = new Quaternion(), _q3 = new Quaternion()
 const _m = new Matrix4()
+const _solveW = new Vector3(), _solveT = new Vector3()
 
 function worldQuat(o: Object3D, out: Quaternion) {
   return o.getWorldQuaternion(out)
@@ -220,13 +223,15 @@ function buildArm(src: Object3D, _age: ArmAge, skin: string, withKada: boolean):
   ) as Record<Finger, Vector3>
 
   // ── the kada: steel, loose on the wrist, child-sized for children ──────────
-  const kadaR = foreLen * 0.108
-  const kadaMat = painted({ color: '#c8ccd0', roughness: 0.22, metalness: 1, rim: [0.85, 0.9, 1.0, 0.8] })
-  const kadaMesh = new Mesh(new TorusGeometry(kadaR, kadaR * 0.15, 14, 56), kadaMat)
+  // A real kada is a thick steel ring (~6 mm bar) that hangs loose just above the wrist
+  // bone, so it sits at ~96% of the forearm with a little slack, not mid-forearm.
+  const kadaR = foreLen * 0.1
+  const kadaMat = painted({ color: '#c8ccd0', roughness: 0.2, metalness: 1, rim: [0.85, 0.9, 1.0, 0.8] })
+  const kadaMesh = new Mesh(new TorusGeometry(kadaR, kadaR * 0.17, 16, 64), kadaMat)
   kadaMesh.frustumCulled = false
   kadaMesh.visible = withKada
-  // sits ~88% down the forearm; torus axis (Z) aligned with the bone (Y)
-  kadaMesh.position.set(0, foreLen * 0.9, 0)
+  // torus axis (Z) aligned with the bone (Y); slack lets it ride slightly off-centre
+  kadaMesh.position.set(foreLen * 0.012, foreLen * 0.955, 0)
   kadaMesh.rotation.set(Math.PI / 2, 0, 0.2)
   fore.add(kadaMesh)
 
@@ -320,6 +325,18 @@ function buildArm(src: Object3D, _age: ArmAge, skin: string, withKada: boolean):
     },
     tip(f, out) {
       return tipObj[f].getWorldPosition(out)
+    },
+    solveTip(f, target, a, iterations = 3) {
+      // IK places the WRIST; we want a FINGERTIP on `target`. The hand's orientation is
+      // fixed by a.fingers/a.palm, so the wrist→tip offset barely changes between
+      // solves: guess, measure the miss, shift the wrist by it, repeat. 3 passes ≈ <1 mm.
+      const wrist = _solveW.copy(target).addScaledVector(a.fingers.clone().normalize(), -handLen * 0.85)
+      for (let i = 0; i < iterations; i++) {
+        rig.place({ ...a, wrist })
+        const miss = tipObj[f].getWorldPosition(_solveT).sub(target)
+        wrist.sub(miss)
+      }
+      rig.place({ ...a, wrist })
     },
   }
   rig.setPose(POSES.relaxed)
