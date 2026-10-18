@@ -250,6 +250,8 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 
 - **2026-10-18 (resume #3)** — third rewind, same symptoms: the working tree equalled v0.1 (`1581284`) in every modified file. Restored with `git restore .` (nothing lost: v0.1 is in history). Survivors from the lost P1-04 attempt are still untracked: `src/scenes/p1/caveLayout.ts` (raycast wall placement for the cave paintings) and the `rock060`/`rock061` CC0 textures. The creator re-sent the identical playthrough feedback; it is fully covered by §0–§1 (renames Sukki/Panditaein/Shivi ✓, mithilamantra.com ✓, 5'9"–5'10" akhaada build ✓, graphic crash ✓, placeholders flagged ✓). **This session:** P1-04 (rebuild on `caveLayout.ts`) → P1-07 → P1-08 → P1-14 → P1-10 → P1-11 → P1-09 → P1-03 → P1-06 → P1-12, **commit after every task, push docs first**.
 
+- **2026-10-18 (resume #3, progress)** — committed in order: P1-04 cave v2 (`69a420f`), P1-07+P1-08 walk-through + gallery room (`a0de4a8`), P1-06 studio + ranked light pool (`604f3cf`), P1-14 infographics (`0396845`), P1-10 eyes v2 (`791bd53`), P1-11+P1-12 house (`979cbac`). **Next:** P1-09 (cabinet/almirah with medal physics; photographers' flash silhouettes; photos that develop when flashed; gallery 8 → 9 units), then P1-03 (sigil likeness + moustache-twirl idle), P1-15 threshold polish, P1-16 sound pass, P1-17 lock check.
+
 **Resume rule:** if `git status` shows many modified files right after a session starts, a rewind probably happened. Compare against `HEAD` before doing anything.
 
 ## 4. Progress
