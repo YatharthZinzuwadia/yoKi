@@ -33,7 +33,7 @@ export const SCENES: SceneDef[] = [
   // ── 01 THE NAME ──────────────────────────────────────────────
   { id: 'p1.cave', phase: 1, title: 'The cave', length: 8, source: 'SYMBOLIC' },
   { id: 'p1.frame', phase: 1, title: 'The first frame', length: 5, source: 'RECONSTRUCTION' },
-  { id: 'p1.gallery', phase: 1, title: 'The gallery of the gaze', length: 8, source: 'COMPOSITE' },
+  { id: 'p1.gallery', phase: 1, title: 'The gallery of the gaze', length: 9, source: 'COMPOSITE' },
   { id: 'p1.house', phase: 1, title: 'The house of frosted glass', length: 6, source: 'COMPOSITE' },
   { id: 'p1.name', phase: 1, title: 'The name', length: 6, source: 'MEMORY' },
 

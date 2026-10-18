@@ -30,6 +30,7 @@ export const MARGINALIA: MarginNote[] = [
   { scene: 'p1.frame', from: 2.6, to: 3.6, text: 'I learned where the light was before I learned who I was.', x: 6, y: 72, rot: -1.5 },
   { scene: 'p1.gallery', from: 1.2, to: 2.6, text: 'every flash = a pat on the head', x: 68, y: 76, rot: 2 },
   { scene: 'p1.gallery', from: 3.4, to: 4.6, text: 'by thirteen I could find the lens in any room.', x: 7, y: 70, rot: -2 },
+  { scene: 'p1.gallery', from: 6.6, to: 7.7, text: 'mum kept every single one. I never looked at them again.', x: 8, y: 74, rot: -1.5 },
   { scene: 'p1.house', from: 0.9, to: 2.2, text: 'the loudest room was the one with the door shut.', x: 64, y: 22, rot: 1.5 },
   { scene: 'p1.house', from: 3.0, to: 4.2, text: 'I was nine. I was the adult in the corridor.', x: 6, y: 24, rot: -2 },
   { scene: 'p1.name', from: 0.6, to: 1.9, text: 'the first thing I owned that nobody gave me.', x: 64, y: 20, rot: 2 },
@@ -55,8 +56,8 @@ export interface Chart {
 export const CHARTS: Chart[] = [
   {
     scene: 'p1.gallery',
-    from: 2.2,
-    to: 4.4,
+    from: 6.1,
+    to: 7.9,
     title: 'recognition, by age',
     note: 'certificates + medals + trophies (approx.)',
     x: 4,

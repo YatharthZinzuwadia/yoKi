@@ -2,7 +2,7 @@
 // flashbulb hits them. Then the walls open their eyes — hundreds, wet, all on us.
 
 import { useMemo } from 'react'
-import { MeshBasicMaterial, Object3D, Vector3 } from 'three'
+import { AdditiveBlending, CanvasTexture, Mesh, MeshBasicMaterial, Object3D, PlaneGeometry, SRGBColorSpace, Vector3 } from 'three'
 import { audio } from '../../audio/engine'
 import type { SceneRange } from '../../content/film'
 import { setAnchor, view } from '../../engine/anchors'
@@ -16,13 +16,81 @@ import { makeEyes, type EyePlacement } from '../../gl/parts/eyes'
 import { buildRoom } from '../../gl/parts/roomKit'
 import { SceneRoot, useSceneFrame } from '../SceneRoot'
 import type { SceneSpec } from '../types'
+import { Cabinet, CABINET, cabinetKick } from './Cabinet'
 import { GALLERY, GALLERY_FRAMES, STUDIO_WALL } from './world'
 
 /** Flash times (scene-local units) → which frame they hit (-1 = a distant audience flash). */
 const FLASHES: [number, number][] = [
   [0.7, 0], [1.25, -1], [1.7, 1], [2.25, -1], [2.65, 2], [3.05, -1], [3.6, 3], [3.95, -1],
   [4.5, 4], [4.8, -1], [5.15, -1], [5.45, 5], [5.75, -1], [6.05, -1],
+  [6.75, 6], // the almirah
 ]
+const CABINET_TARGET = 6
+
+/** A photographer in profile, aiming right: camera to the eye, flash gun on top, one foot
+ *  forward. The cut-out always turns to face you and is mirrored to aim at its target. */
+function photographerTexture() {
+  const c = document.createElement('canvas')
+  c.width = 256
+  c.height = 512
+  const x = c.getContext('2d')!
+  x.fillStyle = '#000'
+  x.strokeStyle = '#000'
+  x.lineCap = 'round'
+  x.lineJoin = 'round'
+  x.beginPath()
+  x.ellipse(104, 96, 27, 31, 0, 0, Math.PI * 2) // head
+  x.fill()
+  x.fillRect(122, 80, 66, 44) // camera body, held to the eye
+  x.fillRect(186, 88, 30, 28) // lens
+  x.fillRect(136, 34, 24, 50) // flash gun on its shoe
+  x.beginPath() // torso, leaning into the shot
+  x.moveTo(72, 150); x.lineTo(126, 142); x.lineTo(124, 300); x.lineTo(70, 300); x.closePath()
+  x.fill()
+  x.lineWidth = 24
+  x.beginPath(); x.moveTo(112, 158); x.lineTo(150, 190); x.lineTo(168, 126); x.stroke() // near arm
+  x.lineWidth = 20
+  x.beginPath(); x.moveTo(84, 160); x.lineTo(120, 200); x.lineTo(136, 128); x.stroke() // far arm
+  x.lineWidth = 28
+  x.beginPath(); x.moveTo(110, 300); x.lineTo(148, 410); x.lineTo(150, 500); x.stroke() // front leg
+  x.beginPath(); x.moveTo(84, 300); x.lineTo(72, 410); x.lineTo(58, 498); x.stroke() // back leg
+  const t = new CanvasTexture(c)
+  t.colorSpace = SRGBColorSpace
+  return t
+}
+
+/** The flash's burst: a white star of light (additive), drawn once. */
+function burstTexture() {
+  const c = document.createElement('canvas')
+  c.width = c.height = 256
+  const x = c.getContext('2d')!
+  const g = x.createRadialGradient(128, 128, 0, 128, 128, 128)
+  g.addColorStop(0, 'rgba(255,255,255,1)')
+  g.addColorStop(0.15, 'rgba(255,250,240,0.8)')
+  g.addColorStop(1, 'rgba(255,240,220,0)')
+  x.fillStyle = g
+  x.fillRect(0, 0, 256, 256)
+  x.strokeStyle = 'rgba(255,255,255,0.7)'
+  x.lineWidth = 3
+  for (let k = 0; k < 4; k++) {
+    x.beginPath()
+    x.moveTo(128 + Math.cos(k * 0.785) * 120, 128 + Math.sin(k * 0.785) * 120)
+    x.lineTo(128 - Math.cos(k * 0.785) * 120, 128 - Math.sin(k * 0.785) * 120)
+    x.stroke()
+  }
+  const t = new CanvasTexture(c)
+  t.colorSpace = SRGBColorSpace
+  return t
+}
+
+/** Where each photographer stands: across the hall from what they shoot, a little nearer the
+ *  camera, facing it. Index 6 = the almirah. */
+function photographerSpot(target: number) {
+  if (target === CABINET_TARGET) return { x: -1.2, z: CABINET.z + 2.2, face: -Math.PI / 2 + 0.5 }
+  const f = GALLERY_FRAMES[target]
+  const x = -f.side * (GALLERY.halfW - 1.7)
+  return { x, z: f.z + 1.6, face: Math.atan2(f.side * GALLERY.halfW - x, f.z - (f.z + 1.6)) }
+}
 
 
 /** Where the eyes go: plaster walls between frames and pilasters, the end wall around the
@@ -106,6 +174,35 @@ function Gallery({ range: r }: { range: SceneRange }) {
   const photoMats = useMemo(() => imgs.map((map) => painted({ map, roughness: 0.55, bands: 0.05 })), [imgs])
   const trig = useMemo(() => makeTriggers(), [])
 
+  // the photographers (one per flash on a frame, and one for the almirah), and the bursts
+  const shooters = useMemo(() => {
+    const sil = new MeshBasicMaterial({ map: photographerTexture(), transparent: true, depthWrite: false, toneMapped: false })
+    const burstTex = burstTexture()
+    return FLASHES.filter(([, t]) => t >= 0).map(([at, t]) => {
+      const sp = photographerSpot(t)
+      const body = new Mesh(new PlaneGeometry(0.95, 1.85), sil.clone())
+      body.position.set(sp.x, 0.925, sp.z)
+      body.rotation.y = sp.face
+      body.renderOrder = 10 // drawn after the burst: black against his own flash
+      const burst = new Mesh(new PlaneGeometry(1, 1), new MeshBasicMaterial({ map: burstTex, transparent: true, depthWrite: false, blending: AdditiveBlending, toneMapped: false }))
+      // the flash fires just in front of him, toward what he shoots
+      burst.position.set(sp.x + Math.sin(sp.face) * 0.35, 1.95, sp.z + Math.cos(sp.face) * 0.35)
+      burst.renderOrder = 9
+      const tgt = t === CABINET_TARGET ? { x: CABINET.x, z: CABINET.z } : { x: GALLERY_FRAMES[t].side * GALLERY.halfW, z: GALLERY_FRAMES[t].z }
+      return { at, body, burst, tx: tgt.x, tz: tgt.z }
+    })
+  }, [])
+  const tmpV = useMemo(() => new Vector3(), [])
+  // each print hangs blank (undeveloped) until its flash develops it
+  const develop = useMemo(
+    () =>
+      GALLERY_FRAMES.map((_, i) => {
+        const at = FLASHES.find(([, t]) => t === i)![0]
+        return { at, mat: painted({ color: '#e9e3d4', roughness: 0.9, transparent: true, opacity: 1, depthWrite: false }) }
+      }),
+    [],
+  )
+
   // the eyes (P1-10): five styles, set into the walls and ceiling (gl/parts/eyes.ts)
   const eyes = useMemo(() => makeEyes(eyePlacements()), [])
 
@@ -113,21 +210,27 @@ function Gallery({ range: r }: { range: SceneRange }) {
   const emptyFrame = useMemo(() => new Object3D(), [])
 
   useSceneFrame(r, (u) => {
+    const cam = view.camera
     const p = trig.step(u)
     // flashes: scroll-scrubbed envelopes (deterministic both ways)
     let flashSum = 0
     FLASHES.forEach(([at, target], k) => {
       if (trig.crossed(p, u, at)) {
-        audio.cue('shutter', { gain: target < 0 ? 0.35 : 0.7, pan: target < 0 ? (k % 2 ? 0.6 : -0.6) : GALLERY_FRAMES[target].side * 0.5 })
+        audio.cue('shutter', { gain: target < 0 ? 0.35 : 0.7, pan: target < 0 ? (k % 2 ? 0.6 : -0.6) : target === CABINET_TARGET ? 0.5 : GALLERY_FRAMES[target].side * 0.5 })
         if (target >= 0 && k % 2 === 0) audio.cue('flash', { gain: 0.35, delay: 0.02 })
       }
       if (u < at) return
       const e = Math.exp(-(u - at) * 7.5)
       if (e < 0.01) return
       if (target >= 0) {
-        const f = GALLERY_FRAMES[target]
-        sceneLights.push(f.side * 1.6, f.y + 0.6, f.z + 2.6, 10, 1, 0.97, 0.92, 26 * e)
+        // the light comes from the photographer's flash gun, across the hall
+        const sp = photographerSpot(target)
+        sceneLights.push(sp.x, 2.05, sp.z, 11, 1, 0.97, 0.92, 26 * e)
         flashSum += e
+        if (target === CABINET_TARGET && cabinetKick.at !== at) {
+          cabinetKick.at = at
+          cabinetKick.strength = 3
+        }
       } else {
         const zz = -75.4 - k * 3.5
         sceneLights.push((k % 2 ? 1 : -1) * 3, 4.5, zz, 9, 1, 0.97, 0.92, 9 * e)
@@ -135,9 +238,30 @@ function Gallery({ range: r }: { range: SceneRange }) {
       }
     })
     fx.flash += clamp(flashSum * 0.16, 0, 0.22)
+    // photographers step out of the dark just before their flash, and are gone after it
+    shooters.forEach((s) => {
+      const vis = smoothstep(s.at - 0.4, s.at - 0.12, u) * (1 - smoothstep(s.at + 0.25, s.at + 0.65, u))
+      s.body.visible = vis > 0.002
+      if (cam && s.body.visible) {
+        // face the camera (around Y only), and aim the profile at what he's shooting
+        s.body.lookAt(cam.position.x, s.body.position.y, cam.position.z)
+        tmpV.set(1, 0, 0).applyQuaternion(cam.quaternion)
+        s.body.scale.x = (s.tx - s.body.position.x) * tmpV.x + (s.tz - s.body.position.z) * tmpV.z >= 0 ? 1 : -1
+      }
+      ;(s.body.material as MeshBasicMaterial).opacity = vis
+      const e = u >= s.at ? Math.exp(-(u - s.at) * 9) : 0
+      s.burst.visible = e > 0.01
+      if (cam && s.burst.visible) {
+        s.burst.lookAt(cam.position)
+        s.burst.scale.setScalar(0.35 + e * 0.95)
+        ;(s.burst.material as MeshBasicMaterial).opacity = Math.min(1, e * 1.4)
+      }
+    })
+    develop.forEach((d) => {
+      d.mat.opacity = 1 - smoothstep(d.at, d.at + 0.6, u)
+    })
     // the room's own light: moonlight through the skylights (the global sun, with shadows, so
     // the coffer beams stripe the floor), a cool fill, and a warm picture light per photo
-    const cam = view.camera
     const into = smoothstep(-2, 0.4, u) * (1 - smoothstep(r.length + 0.2, r.length + 1.2, u))
     env.hemiSky[0] = 0.07 + 0.14 * into; env.hemiSky[1] = 0.075 + 0.16 * into; env.hemiSky[2] = 0.09 + 0.2 * into
     env.hemiGround[0] = 0.07 * into + 0.01; env.hemiGround[1] = 0.06 * into + 0.01; env.hemiGround[2] = 0.05 * into + 0.012
@@ -152,15 +276,15 @@ function Gallery({ range: r }: { range: SceneRange }) {
         sceneLights.push(f.side * (W - 0.7), f.y + f.h / 2 + 0.45, f.z, 4.6, 1, 0.82, 0.58, 2.4 * k * into)
       })
     }
-    const beam = smoothstep(5.9, 6.8, u)
+    const beam = smoothstep(6.9, 7.8, u)
     sceneLights.push(0, 3.2, z1 + 5, 9, 1, 0.9, 0.75, 4.5 * beam)
     sceneLights.push(0, 7.4, z1 + 2, 6, 1, 0.92, 0.8, 3 * beam)
 
     // eyes: open in five waves from u≈4.2, all close as the beam finds the empty frame
-    if (cam) eyes.update(u, film.clock, cam.position, clamp(flashSum * 1.2 + beam * 0.3, 0, 1.6), smoothstep(7.0, 7.6, u))
+    if (cam) eyes.update(u, film.clock, cam.position, clamp(flashSum * 1.2 + beam * 0.3, 0, 1.6), smoothstep(8.0, 8.6, u))
 
     // the empty frame grows into a doorway
-    const grow = smoothstep(6.5, 8.0, u)
+    const grow = smoothstep(7.5, 9.0, u)
     // …until its opening is exactly the doorway in the end wall (2.2 × 2.5 m)
     emptyFrame.scale.set(1 + grow * 0.55, 1 + grow * 0.257, 1)
     emptyFrame.position.y = 2.45 - grow * 1.2
@@ -175,6 +299,9 @@ function Gallery({ range: r }: { range: SceneRange }) {
       {GALLERY_FRAMES.map((f, i) => (
         <group key={f.id} position={[f.side * (W - 0.06), f.y, f.z]} rotation-y={-f.side * Math.PI / 2}>
           <mesh material={photoMats[i]} position={[0, 0, 0.03]}>
+            <planeGeometry args={[f.w, f.h]} />
+          </mesh>
+          <mesh material={develop[i].mat} position={[0, 0, 0.034]}>
             <planeGeometry args={[f.w, f.h]} />
           </mesh>
           {[
@@ -213,6 +340,13 @@ function Gallery({ range: r }: { range: SceneRange }) {
         ))}
       </primitive>
       <primitive object={eyes.mesh} />
+      <Cabinet range={r} />
+      {shooters.map((s, i) => (
+        <group key={i}>
+          <primitive object={s.body} />
+          <primitive object={s.burst} />
+        </group>
+      ))}
     </SceneRoot>
   )
 }
@@ -229,13 +363,15 @@ export const gallerySpec: SceneSpec = {
     { u: 3.9, pos: [0, 1.62, -87.9], at: [-2.6, 3.4, -94.95] },
     { u: 4.85, pos: [0, 1.62, -93.9], at: [2.6, 3.2, -100.95] },
     { u: 5.8, pos: [0, 1.62, -99.9], at: [-1.6, 3.3, -106.95] },
-    { u: 6.8, pos: [0, 1.6, -112], at: [0, 2.4, -140.4], tension: 0.4 },
-    { u: 8.0, pos: [0, 1.5, -132.9], at: [0, 1.9, -142.4] },
+    // the almirah, on the right wall
+    { u: 6.75, pos: [-0.8, 1.62, -106.6], at: [3.9, 2.3, -112.95], tension: 0.55 },
+    { u: 7.8, pos: [0, 1.6, -118], at: [0, 2.4, -140.4], tension: 0.4 },
+    { u: 9.0, pos: [0, 1.5, -132.9], at: [0, 1.9, -142.4] },
   ],
   look: [
     { u: 0, exposure: 0.2, saturation: 0.7, contrast: 1.18, paint: 0.45, ink: 0.6, inkFar: 34, vignette: 0.65, tint: [1.0, 0.97, 0.93] },
     { u: 4.5, saturation: 0.6 },
-    { u: 8, exposure: 0.1 },
+    { u: 9, exposure: 0.1 },
   ],
   fog: { color: '#050506', near: 10, far: 52 },
 }
