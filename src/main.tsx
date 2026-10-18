@@ -4,6 +4,7 @@ import '@fontsource-variable/fraunces/full-italic.css'
 import '@fontsource-variable/fraunces/full.css'
 import '@fontsource/ibm-plex-mono/400.css'
 import '@fontsource/tiro-devanagari-sanskrit/400.css'
+import '@fontsource/noto-serif-gujarati/500.css'
 import './styles/app.css'
 import App from './App'
 

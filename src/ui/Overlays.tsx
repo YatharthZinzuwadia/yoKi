@@ -47,9 +47,10 @@ export function Statements() {
           ref={(el) => {
             els.current[i] = el
           }}
-          className={`statement at-${s.at ?? 'low'}${s.quote ? ' is-quote' : ''}${s.script === 'devanagari' ? ' is-deva' : ''}`}
+          className={`statement at-${s.at ?? 'low'}${s.quote ? ' is-quote' : ''}${s.script === 'devanagari' ? ' is-deva' : ''}${s.script === 'gujarati' ? ' is-guj' : ''}`}
         >
           {s.quote ? `“${s.text.replace(/^“|”$/g, '')}”` : s.text}
+          {s.tr && <span className="tr">{s.tr}</span>}
         </div>
       ))}
     </div>

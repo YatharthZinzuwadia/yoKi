@@ -15,8 +15,10 @@ export interface Statement {
   at?: 'low' | 'mid' | 'left' | 'right' | 'high'
   /** A real (or reconstructed) spoken line → shown in quotation style. */
   quote?: boolean
-  /** Script: devanagari lines use the Devanagari face. */
-  script?: 'latin' | 'devanagari'
+  /** Script: devanagari / gujarati lines use their own faces. */
+  script?: 'latin' | 'devanagari' | 'gujarati'
+  /** A translation shown under the line (subtitles for non-English speech). */
+  tr?: string
 }
 
 export const STATEMENTS: Statement[] = [
@@ -25,6 +27,11 @@ export const STATEMENTS: Statement[] = [
   { scene: 'p1.cave', from: 5.0, to: 6.2, text: 'Two tall shadows. A line between them. Me, in the middle.' },
   { scene: 'p1.cave', from: 6.65, to: 7.85, text: 'Every wall in here was painted by someone else. The hand is mine.' },
   { scene: 'p1.gallery', from: 3.6, to: 6.4, text: 'Smile. Again. Bigger.', at: 'high' },
+  // the argument behind the glass — authored lines (FICTION), subtitled
+  { scene: 'p1.house', from: 1.3, to: 1.95, text: 'પૈસા ક્યાંથી લાવશું?', tr: '[through the glass] where will the money come from?', script: 'gujarati' },
+  { scene: 'p1.house', from: 1.95, to: 2.55, text: 'તમે કંઈ જ નથી કરતા!', tr: 'you don’t do anything!', script: 'gujarati' },
+  { scene: 'p1.house', from: 2.6, to: 3.2, text: 'બસ કરો!', tr: 'enough!', script: 'gujarati' },
+  { scene: 'p1.house', from: 3.3, to: 3.95, text: 'છોકરાઓ સાંભળે છે…', tr: 'the children can hear…', script: 'gujarati' },
   { scene: 'p1.house', from: 3.9, to: 5.6, text: 'Be the elder. Don’t cry.', at: 'left' },
   { scene: 'p1.name', from: 2.2, to: 3.9, text: 'They gave me a frame. I gave myself a name.' },
   // 02 THE MANY
@@ -94,6 +101,7 @@ export const ANNOTATIONS: Annotation[] = [
   { scene: 'p1.gallery', from: 4.8, to: 6.6, anchor: 'p1.g4', text: 'debate · mun', side: 'right' },
   { scene: 'p1.gallery', from: 5.4, to: 7.2, anchor: 'p1.g5', text: 'first studio portrait · age 6', side: 'left' },
   { scene: 'p1.gallery', from: 0.5, to: 7.6, anchor: 'screen.counter', text: 'times photographed: {n}', counter: { from: 1, to: 1000, suffix: '+' } },
+  { scene: 'p1.house', from: 0.15, to: 1.4, anchor: 'screen.context', text: 'home · age 7–12 · the eldest', sub: 'two rooms with the doors shut, and a corridor in between' },
   { scene: 'p1.house', from: 1.2, to: 4.6, anchor: 'p1.heights', text: 'expectation · measured yearly', side: 'right' },
   { scene: 'p1.house', from: 4.3, to: 5.9, anchor: 'p1.brother', text: 'brother · 8 yrs younger · commerce → CA', side: 'right' },
   { scene: 'p1.name', from: 1.2, to: 3.6, anchor: 'p1.glass', text: 'the name · adopted at 14–15 · by choice', side: 'right' },

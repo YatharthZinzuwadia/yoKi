@@ -3,7 +3,7 @@
 // down a wall. Pencil height marks with demands. A tiny hand takes our finger.
 
 import { use, useMemo } from 'react'
-import { CanvasTexture, SRGBColorSpace, ShaderMaterial, Vector4, type Texture } from 'three'
+import { CanvasTexture, SRGBColorSpace, ShaderMaterial, Vector3, Vector4, type Texture } from 'three'
 import { audio } from '../../audio/engine'
 import type { SceneRange } from '../../content/film'
 import { setAnchor, view } from '../../engine/anchors'
@@ -11,11 +11,13 @@ import { film } from '../../engine/director'
 import { fx, sceneLights } from '../../engine/fx'
 import { clamp, smoothstep } from '../../engine/math'
 import { makeTriggers } from '../../engine/triggers'
-import { makeHand, mixPose, POSES, type HandPose } from '../../gl/parts/hand'
+import { mixPose, newPose, POSES, preloadArms, useArm } from '../../gl/parts/arm'
 import { painted } from '../../gl/materials/painted'
 import { SceneRoot, useSceneFrame } from '../SceneRoot'
 import type { SceneSpec } from '../types'
 import { HOUSE } from './world'
+
+preloadArms(['child', 'baby'])
 
 // ── frosted pane with silhouettes (SDF) ─────────────────────────────────────
 const paneFrag = /* glsl */ `
@@ -25,6 +27,8 @@ uniform vec4 uPose[3];  // armL, armR, lean, alpha
 uniform vec4 uPlate;    // x, y, radius, blur
 uniform vec4 uShard;    // originX, originY, t (since impact), alpha
 uniform vec3 uLamp;     // lamp uv x, y, warmth
+uniform sampler2D uWords; // the argument, as smeared shadow-letters on the glass
+uniform float uWordsA;
 varying vec2 vUv;
 float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }
 float n(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
@@ -75,6 +79,8 @@ void main() {
       shadow = max(shadow, smoothstep(0.004, -0.004, tri) * uShard.w);
     }
   }
+  // the words shouted on the other side, bleeding through as soft shadow
+  if (uWordsA > 0.0) shadow = max(shadow, texture2D(uWords, vUv).a * uWordsA * 0.9);
   // frost: mottled diffusion and condensation
   float frost = 0.82 + 0.18 * n(p * 38.0) + 0.06 * n(p * 140.0);
   vec3 col = light * (1.0 - shadow * 0.93) * frost;
@@ -99,9 +105,39 @@ function makePane(aspect: number) {
       uPlate: { value: new Vector4() },
       uShard: { value: new Vector4() },
       uLamp: { value: [0.5, 0.75, 0.4] },
+      uWords: { value: null },
+      uWordsA: { value: 0 },
     },
   })
 }
+
+// ── the argument, in Gujarati, as it reached the corridor ───────────────────
+// (authored lines — FICTION tag — in the family's language; translations are subtitled)
+const WORDS: Record<string, string[]> = {
+  fight: ['પૈસા ક્યાંથી લાવશું?', 'તમે કંઈ જ નથી કરતા!'],
+  empty: ['ચૂપ!'],
+  plate: ['બસ કરો!'],
+  mother: ['છોકરાઓ સાંભળે છે…'],
+}
+const wordsPromise: Promise<Record<string, Texture>> =
+  typeof document === 'undefined'
+    ? new Promise(() => {})
+    : document.fonts.load('500 120px "Noto Serif Gujarati"').then(() => {
+        const out: Record<string, Texture> = {}
+        for (const [k, lines] of Object.entries(WORDS)) {
+          const c = document.createElement('canvas')
+          c.width = 1024
+          c.height = 560
+          const ctx = c.getContext('2d')!
+          ctx.filter = 'blur(6px)'
+          ctx.fillStyle = '#000'
+          ctx.textAlign = 'center'
+          ctx.font = `500 ${lines.length > 1 ? 104 : 150}px "Noto Serif Gujarati"`
+          lines.forEach((l, i) => ctx.fillText(l, 512, lines.length > 1 ? 210 + i * 170 : 330))
+          out[k] = new CanvasTexture(c)
+        }
+        return out
+      })
 
 // ── the height-marks wall (pencil on plaster) ───────────────────────────────
 const heightsPromise: Promise<Texture> =
@@ -183,16 +219,31 @@ const PANE_H = 2.4
 
 function House({ range: r }: { range: SceneRange }) {
   const heights = use(heightsPromise)
-  const panes = useMemo(() => PANES.map((p) => ({ ...p, mat: makePane(p.w / PANE_H) })), [])
+  const words = use(wordsPromise)
+  const panes = useMemo(
+    () =>
+      PANES.map((p) => {
+        const mat = makePane(p.w / PANE_H)
+        mat.uniforms.uWords.value = words[p.kind]
+        return { ...p, mat }
+      }),
+    [words],
+  )
   const floor = useMemo(() => painted({ color: '#2a211c', roughness: 0.5, bands: 0.1 }), [])
   const wall = useMemo(() => painted({ color: '#4a4038', roughness: 0.9, bands: 0.14 }), [])
   const wood = useMemo(() => painted({ color: '#24180f', roughness: 0.6, bands: 0.1 }), [])
   const heightsMat = useMemo(() => painted({ map: heights, roughness: 0.9, bands: 0.1 }), [heights])
   const trig = useMemo(() => makeTriggers(), [])
-  const child = useMemo(() => makeHand({ skin: '#9b6a48', kada: false, sleeve: '#3c4a5c', scale: 0.62 }), [])
-  const brother = useMemo(() => makeHand({ skin: '#a87452', kada: false, sleeve: '#c9a227', scale: 0.34 }), [])
-  const pose = useMemo<HandPose>(() => ({ curl: [0, 0, 0, 0], thumb: 0, spread: 0 }), [])
-  const bpose = useMemo<HandPose>(() => ({ curl: [0, 0, 0, 0], thumb: 0, spread: 0 }), [])
+  // real arms (P1-01): his child arm — with the kada, as at every age — and his baby
+  // brother's hand, eight years younger, which closes around his finger
+  const child = useArm('child')
+  const brother = useArm('baby', { kada: false })
+  const pose = useMemo(newPose, [])
+  const bpose = useMemo(newPose, [])
+  const tmp = useMemo(
+    () => ({ shoulder: new Vector3(), w: new Vector3(), pole: new Vector3(), fingers: new Vector3(), palm: new Vector3(), tip: new Vector3(), bs: new Vector3(), bw: new Vector3(), up: new Vector3() }),
+    [],
+  )
 
   const z0 = HOUSE.z0, z1 = HOUSE.z1, W = HOUSE.halfW
   const len = z0 - z1
@@ -212,6 +263,10 @@ function House({ range: r }: { range: SceneRange }) {
       U.uPlate.value.set(0, 0, 0, 0)
       U.uShard.value.set(0, 0, 0, 0)
       const asp = pn.w / PANE_H
+      // the words reach the glass with the shouting (see the subtitles in copy.ts)
+      const WIN: Record<string, [number, number]> = { fight: [1.25, 2.75], empty: [1.9, 2.75], plate: [2.5, 3.6], mother: [3.3, 4.5] }
+      const [wa, wb] = WIN[pn.kind]
+      U.uWordsA.value = smoothstep(wa, wa + 0.25, u) * (1 - smoothstep(wb - 0.3, wb, u))
       if (pn.kind === 'fight') {
         const jab = Math.sin(k * 5.2) * 0.5 + 0.5
         const rage = smoothstep(1.2, 2.2, u)
@@ -261,27 +316,35 @@ function House({ range: r }: { range: SceneRange }) {
     const show = smoothstep(4.15, 4.7, u) * (1 - smoothstep(5.45, 5.95, u))
     child.root.visible = brother.root.visible = show > 0.001
     if (cam && show > 0.001) {
+      const q = cam.quaternion
+      const L = (x: number, y: number, z: number, out: Vector3) => out.set(x, y, z).applyQuaternion(q).add(cam.position)
       mixPose(POSES.relaxed, POSES.point, smoothstep(4.2, 4.6, u), pose)
-      child.pose(pose)
-      const ox = 0.08, oy = -0.26 + show * 0.12, oz = -0.42
-      child.root.position.set(ox, oy, oz).applyQuaternion(cam.quaternion).add(cam.position)
-      child.root.quaternion.copy(cam.quaternion)
-      child.root.rotateX(-0.75)
-      child.root.rotateY(0.25)
+      child.setPose(pose)
+      // the child's right shoulder sits just below-right of the eyes; the index finger
+      // reaches down and forward, toward the small hand coming up from below
+      // a child's arm is short (~40 cm): shoulder close, target within reach and inside the frame
+      L(0.15, -0.2, -0.04, tmp.shoulder)
+      L(0.03, -0.13 + show * 0.04, -0.37, tmp.w)
+      tmp.pole.set(0.35, -1, 0.25).applyQuaternion(q)
+      tmp.fingers.set(-0.12, -0.35, -1).applyQuaternion(q).normalize()
+      tmp.palm.set(0.1, -1, 0.15).applyQuaternion(q).normalize()
+      child.solveTip('index', tmp.w, { shoulder: tmp.shoulder, pole: tmp.pole, fingers: tmp.fingers, palm: tmp.palm })
+      child.tip('index', tmp.tip)
+      // the brother's hand: palm up under the fingertip, fingers along it, closing (grip)
       const grip = smoothstep(4.55, 4.95, u)
       mixPose(POSES.open, POSES.grip, grip, bpose)
-      brother.pose(bpose)
-      // the small hand wraps the index finger from below
-      brother.root.position.copy(child.tipLocal).applyQuaternion(child.root.quaternion).add(child.root.position)
-      brother.root.quaternion.copy(child.root.quaternion)
-      brother.root.rotateZ(Math.PI * 0.55)
-      brother.root.rotateX(0.6)
-      brother.root.translateZ(0.075 - grip * 0.02)
-      brother.root.translateY(-0.03)
-      setAnchor('p1.brother', brother.root.position.x, brother.root.position.y, brother.root.position.z)
+      brother.setPose(bpose)
+      tmp.up.set(0, 1, 0).applyQuaternion(q)
+      tmp.bw.copy(tmp.tip).addScaledVector(tmp.fingers, -0.035).addScaledVector(tmp.up, -0.03 - (1 - grip) * 0.05)
+      // the baby's shoulder hangs below the fingertip, so its short arm always reaches
+      const reach = (brother.lengths.upper + brother.lengths.fore) * 0.8
+      tmp.bs.copy(tmp.tip).addScaledVector(tmp.up, -reach).addScaledVector(tmp.fingers, 0.03)
+      tmp.pole.set(-0.4, -1, 0.3).applyQuaternion(q)
+      brother.place({ shoulder: tmp.bs, wrist: tmp.bw, pole: tmp.pole, fingers: tmp.fingers, palm: tmp.up })
+      setAnchor('p1.brother', tmp.bw.x, tmp.bw.y, tmp.bw.z)
       // the warmest light in the house, close to the hands
-      const hp = child.root.position
-      sceneLights.push(hp.x + 0.3, hp.y + 0.4, hp.z + 0.2, 2.2, 1, 0.82, 0.62, 2.6 * show)
+      const hp = tmp.tip
+      sceneLights.push(hp.x + 0.25, hp.y + 0.45, hp.z + 0.35, 2.4, 1, 0.82, 0.62, 2.6 * show)
     }
   })
 

@@ -264,8 +264,8 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [x] P1-08 gallery room (roomKit: wainscot/rails/baseboard/cornice/pilasters/coffers/skylights/door casing, triplanar plaster/wood/parquet; moonlight sun with beam shadows; warm picture lights with brass hoods; photos centred in 6 m bays; hall height 10.5 m)
 - [ ] P1-09 choreography, cabinet, physics
 - [x] P1-10 eyes v2 (wall-set quads with skin sockets; 5 styles; pupils track the camera with saccades; 12–80 cm + giants up to 2.2 m; five opening waves; some weep blood; placements avoid frames/pilasters/rail/door/beams. Sound motif still with P1-16)
-- [ ] P1-11 house legible
-- [ ] P1-12 height marks (**marks + brother column ✓**; real child hand waits on P1-01)
+- [x] P1-11 house legible (context card 'home · age 7–12 · the eldest'; the argument as Gujarati shadow-words on the frosted panes + subtitles with translations; money chart + roles web + margin notes from P1-14. Still open: 3D MPFB figures behind the glass instead of SDF silhouettes, intelligible voices with P1-16)
+- [x] P1-12 height marks + hands (marks + brother column ✓; real child arm with the kada and the baby brother's real hand reaching for his finger ✓)
 - [x] P1-13 steamed mirror (bathroom, locked camera with zero-velocity arrival, canvas wipe-mask fog shader, generated teen reflection, drips; hand mesh upgrade comes with P1-01)
 - [x] P1-14 infographics layer (age ruler with per-scene spans; margin notes; drawn charts: recognition-by-age bars, family-money line, 'the eldest' role web; content in src/content/info.ts. Remaining density ideas: catalogue numbers on gallery plaques, redaction bars, more charts in Phases 02–05)
 - [ ] P1-15 threshold polish
