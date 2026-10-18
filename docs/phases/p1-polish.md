@@ -259,7 +259,7 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [ ] P1-03 sigil likeness + idle
 - [x] P1-04 cave v2 (sandstone strata + triplanar Rock061; five canvas-drawn Bhimbetka pictographs as decals — born / the gaze / the pose / home / the hand stencil with the kada ring; drips from real stalactite tips; filament-mirroring puddle; walking light; flat floor; 'site I' context card + catalogue labels with ages; cave 7→8 units)
 - [x] P1-05 no-pop cave→chamber (dome mouth carved; lights fade on u; fog extended)
-- [ ] P1-06 modelling frame + studio (**anchor swapped to modelling ✓**, Colgate on the gallery wall ✓; studio dressing TODO)
+- [x] P1-06 modelling frame + studio (anchor = modelling ✓; Colgate on the gallery wall ✓; studio: softboxes, hung contact sheets/negatives, bare bulbs, polaroids, director's chair, model release on a clipboard; quarried rock wall; chamber fill; new labels)
 - [x] P1-07 walk through the photograph (world re-based: gallery/house/mirror +129.6 m so the gallery sits behind the frame; quarried STUDIO_WALL with the frame's opening; dome backCut; scrim print: back-lit flash → rolls up; continuous camera, no white-out)
 - [x] P1-08 gallery room (roomKit: wainscot/rails/baseboard/cornice/pilasters/coffers/skylights/door casing, triplanar plaster/wood/parquet; moonlight sun with beam shadows; warm picture lights with brass hoods; photos centred in 6 m bays; hall height 10.5 m)
 - [ ] P1-09 choreography, cabinet, physics

@@ -28,6 +28,7 @@ import { sepiaPortrait, useImage } from '../../gl/parts/images'
 import { painted, triSet } from '../../gl/materials/painted'
 import { SceneRoot, useSceneFrame } from '../SceneRoot'
 import type { SceneSpec } from '../types'
+import { Studio } from './Studio'
 import { CHAMBER, FRAME, STUDIO_WALL } from './world'
 
 /** Scene-local timing of the walk-through (also used by the camera keys below). */
@@ -207,6 +208,7 @@ function Frame({ range: r }: { range: SceneRange }) {
           <cylinderGeometry args={[0.1, 0.1, inW, 20, 1]} />
         </mesh>
       </primitive>
+      <Studio range={r} />
       <primitive object={dust} />
     </SceneRoot>
   )

@@ -17,6 +17,7 @@ function Lights() {
     sceneLights.push(0.8, 1.0, 0.2, 6, 1, 0.9, 0.78, 5)
     sceneLights.push(-1.2, 0.2, -0.8, 6, 0.6, 0.7, 0.9, 2)
     const m = camera.matrixWorldInverse
+    sceneLights.select(camera.position.x, camera.position.y, camera.position.z)
     for (let i = 0; i < sceneLights.count; i++) {
       const p = sceneLights.pos[i]
       sceneLights.view[i].set(p.x, p.y, p.z, 1).applyMatrix4(m)

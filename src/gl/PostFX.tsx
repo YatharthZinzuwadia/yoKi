@@ -106,6 +106,7 @@ export function PostFX() {
 
     // scene lights → view space (after scenes have pushed theirs this frame)
     const m = camera.matrixWorldInverse
+    sceneLights.select(camera.position.x, camera.position.y, camera.position.z)
     for (let i = 0; i < sceneLights.count; i++) {
       const p = sceneLights.pos[i]
       const v = sceneLights.view[i]

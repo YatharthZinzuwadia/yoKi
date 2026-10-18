@@ -54,8 +54,11 @@ export const env = {
 
 export const MAX_SCENE_LIGHTS = 12
 
+/** How many candidate lights scenes may push per frame (more than the shader uses). */
+const MAX_CANDIDATES = 40
+
 export const sceneLights = {
-  /** World-space position (xyz) + radius (w). */
+  /** The lights the shader sees: world-space position (xyz) + radius (w). */
   pos: Array.from({ length: MAX_SCENE_LIGHTS }, () => new Vector4(0, -9999, 0, 1)),
   /** Linear colour (rgb) + intensity (w). */
   col: Array.from({ length: MAX_SCENE_LIGHTS }, () => new Vector4(0, 0, 0, 0)),
@@ -63,17 +66,59 @@ export const sceneLights = {
   view: Array.from({ length: MAX_SCENE_LIGHTS }, () => new Vector4(0, -9999, 0, 1)),
   count: 0,
 
+  // candidates pushed by every scene this frame (overlapping scenes can push more than
+  // MAX_SCENE_LIGHTS); `select()` keeps the ones that matter most to the current view
+  cPos: Array.from({ length: MAX_CANDIDATES }, () => new Vector4()),
+  cCol: Array.from({ length: MAX_CANDIDATES }, () => new Vector4()),
+  cScore: new Float32Array(MAX_CANDIDATES),
+  cCount: 0,
+  order: Array.from({ length: MAX_CANDIDATES }, (_, i) => i),
+
   reset() {
     for (let i = 0; i < MAX_SCENE_LIGHTS; i++) this.col[i].w = 0
     this.count = 0
+    this.cCount = 0
   },
 
-  /** Add a light for this frame. Returns false if the pool is full. */
+  /** Add a light for this frame. Returns false if even the candidate list is full. */
   push(x: number, y: number, z: number, radius: number, r: number, g: number, b: number, intensity: number) {
-    if (this.count >= MAX_SCENE_LIGHTS || intensity <= 0.0001) return false
-    const i = this.count++
-    this.pos[i].set(x, y, z, radius)
-    this.col[i].set(r, g, b, intensity)
+    if (this.cCount >= MAX_CANDIDATES || intensity <= 0.0001) return false
+    const i = this.cCount++
+    this.cPos[i].set(x, y, z, radius)
+    this.cCol[i].set(r, g, b, intensity)
     return true
+  },
+
+  /**
+   * Choose up to MAX_SCENE_LIGHTS of this frame's candidates (called once per frame, after
+   * every scene has pushed). Score = intensity × reach, discounted by how far the light's
+   * sphere is from the camera, so a bright light around you always beats a dim one far away.
+   */
+  select(cx: number, cy: number, cz: number) {
+    const n = this.cCount
+    for (let i = 0; i < n; i++) {
+      const p = this.cPos[i]
+      const d = Math.max(0, Math.hypot(p.x - cx, p.y - cy, p.z - cz) - p.w)
+      this.cScore[i] = this.cCol[i].w * Math.sqrt(p.w) / (1 + d * 0.35)
+      this.order[i] = i
+    }
+    // in-place insertion sort (n ≤ 40; no allocation inside the frame loop)
+    const ord = this.order, sc = this.cScore
+    for (let i = 1; i < n; i++) {
+      const v = ord[i]
+      let j = i - 1
+      while (j >= 0 && sc[ord[j]] < sc[v]) {
+        ord[j + 1] = ord[j]
+        j--
+      }
+      ord[j + 1] = v
+    }
+    const k = Math.min(n, MAX_SCENE_LIGHTS)
+    for (let j = 0; j < k; j++) {
+      this.pos[j].copy(this.cPos[ord[j]])
+      this.col[j].copy(this.cCol[ord[j]])
+    }
+    for (let j = k; j < MAX_SCENE_LIGHTS; j++) this.col[j].w = 0
+    this.count = k
   },
 }
