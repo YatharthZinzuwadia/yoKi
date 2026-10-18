@@ -6,6 +6,7 @@ import { Debug } from './ui/Debug'
 import { Loader } from './ui/Loader'
 import { NavPill } from './ui/NavPill'
 import { Annotations, Statements, Threshold } from './ui/Overlays'
+import { AgeRuler, Charts, Marginalia } from './ui/info/Info'
 import { Lab } from './lab/Lab'
 
 const LAB = new URLSearchParams(location.search).get('lab')
@@ -37,6 +38,9 @@ export default function App() {
       <Stage />
       <Statements />
       <Annotations />
+      <Marginalia />
+      <Charts />
+      <AgeRuler />
       <Threshold />
       <NavPill />
       <Loader />

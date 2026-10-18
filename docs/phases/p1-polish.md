@@ -267,7 +267,7 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [ ] P1-11 house legible
 - [ ] P1-12 height marks (**marks + brother column ✓**; real child hand waits on P1-01)
 - [x] P1-13 steamed mirror (bathroom, locked camera with zero-velocity arrival, canvas wipe-mask fog shader, generated teen reflection, drips; hand mesh upgrade comes with P1-01)
-- [ ] P1-14 infographics layer
+- [x] P1-14 infographics layer (age ruler with per-scene spans; margin notes; drawn charts: recognition-by-age bars, family-money line, 'the eldest' role web; content in src/content/info.ts. Remaining density ideas: catalogue numbers on gallery plaques, redaction bars, more charts in Phases 02–05)
 - [ ] P1-15 threshold polish
 - [ ] P1-16 sound pass
 - [ ] P1-17 lock check

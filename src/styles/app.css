@@ -200,3 +200,36 @@ html.has-kada, html.has-kada * { cursor: none !important; }
   .loader.is-waiting .loader-prompt { animation: none; }
   .navpill-sound i { animation: none; }
 }
+
+/* ── infographic layer (P1-14) ─────────────────────────────────────────── */
+.age-ruler {
+  position: fixed; left: clamp(20px, 3vw, 40px); bottom: clamp(22px, 4vh, 40px); z-index: 12;
+  pointer-events: none; opacity: 0; color: var(--bone);
+}
+.age-ruler .age-label { display: block; font-size: 10.5px; letter-spacing: 0.14em; text-transform: lowercase; margin-bottom: 6px; opacity: 0.85; }
+.age-ruler svg { display: block; overflow: visible; }
+.age-axis { stroke: var(--ash); stroke-width: 1; }
+.age-tick { stroke: var(--ash); stroke-width: 1; }
+.age-num { fill: var(--ash); font-size: 9px; letter-spacing: 0.08em; text-anchor: middle; font-family: inherit; }
+.age-bar { fill: none; stroke: var(--bone); stroke-width: 1.4; transition: none; }
+
+.marginalia { position: fixed; inset: 0; z-index: 11; pointer-events: none; }
+.margin-note {
+  position: absolute; max-width: 26ch; visibility: hidden; opacity: 0;
+  font-family: 'Fraunces Variable', serif; font-style: italic; font-size: clamp(14px, 1.15vw, 18px); line-height: 1.35;
+  color: rgba(237, 230, 214, 0.86); text-shadow: 0 0 14px rgba(0, 0, 0, 0.9);
+}
+
+.charts { position: fixed; inset: 0; z-index: 11; pointer-events: none; }
+.chart { position: absolute; visibility: hidden; opacity: 0; color: var(--bone); --draw: 0; }
+.chart svg { width: 100%; height: calc(100% - 34px); overflow: visible; }
+.chart-title { font-size: 11px; letter-spacing: 0.14em; text-transform: lowercase; margin-bottom: 4px; }
+.chart-note { font-size: 9.5px; letter-spacing: 0.1em; color: var(--ash); margin-top: 2px; text-transform: lowercase; }
+.chart-axis, .chart-mid { stroke: var(--ash); stroke-width: 1; }
+.chart-mid { stroke-dasharray: 3 4; opacity: 0.6; }
+.chart-bar { fill: rgba(237, 230, 214, 0.78); }
+.chart-line { fill: none; stroke: var(--bone); stroke-width: 1.6; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--draw)); }
+.chart-tick { fill: var(--ash); font-size: 9px; text-anchor: middle; letter-spacing: 0.06em; }
+.chart-tick.web { fill: var(--bone); font-size: 10.5px; opacity: calc(var(--draw) * 1.2 - 0.2); }
+.chart-node { fill: none; stroke: var(--bone); stroke-width: 1.4; }
+.chart-centre { fill: var(--bone); font-size: 10px; text-anchor: middle; letter-spacing: 0.1em; }
