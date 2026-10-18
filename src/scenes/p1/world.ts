@@ -1,6 +1,7 @@
-// Phase 01 world layout (metres). The cave, chamber and frame share one continuous
-// space; the gallery begins after a flash white-out and continues into the house
-// and the black glass without another cut.
+// Phase 01 world layout (metres). ONE continuous space, no cuts: the cave opens into a
+// chamber; the giant frame stands in a quarried rock wall (STUDIO_WALL) and its opening IS
+// the doorway into the gallery behind it (P1-07: walk through the photograph); the gallery
+// leads into the house and the bathroom mirror.
 
 import { CatmullRomCurve3, Vector3 } from 'three'
 
@@ -33,16 +34,20 @@ export const FILAMENT_CURVE = new CatmullRomCurve3(
   'centripetal',
 )
 
-export const GALLERY = { z0: -198, z1: -270, halfW: 4.6, height: 8 }
+/** The flat rock face the frame stands in; everything at z below it is the gallery. */
+export const STUDIO_WALL = { z: -64.45, halfW: 22, height: 21 }
 
+export const GALLERY = { z0: -68.4, z1: -140.4, halfW: 4.6, height: 10.5, pilasterEvery: 6 }
+
+// one photograph per bay, centred between the pilasters (bays every 6 m from the wall)
 export const GALLERY_FRAMES = [
-  { id: 'p1.g0', img: 'p1/modelling2', side: 1, z: -212, y: 2.95, w: 2.46, h: 3.33 },
-  { id: 'p1.g1', img: 'p1/spellbee', side: -1, z: -219, y: 2.75, w: 2.75, h: 2.17 },
-  { id: 'p1.g2', img: 'p1/stage', side: 1, z: -226, y: 2.65, w: 3.48, h: 2.46 },
-  { id: 'p1.g3', img: 'p1/olympiad', side: -1, z: -234, y: 3.15, w: 2.17, h: 2.90 },
-  { id: 'p1.g4', img: 'p1/debate', side: 1, z: -242, y: 2.75, w: 2.90, h: 2.17 },
-  { id: 'p1.g5', img: 'p1/smile', side: -1, z: -249, y: 2.55, w: 2.32, h: 3.19 },
+  { id: 'p1.g0', img: 'p1/modelling2', side: 1, z: -76.95, y: 3.55, w: 2.46, h: 3.33 },
+  { id: 'p1.g1', img: 'p1/spellbee', side: -1, z: -82.95, y: 3.4, w: 2.75, h: 2.17 },
+  { id: 'p1.g2', img: 'p1/stage', side: 1, z: -88.95, y: 3.3, w: 3.48, h: 2.46 },
+  { id: 'p1.g3', img: 'p1/olympiad', side: -1, z: -94.95, y: 3.6, w: 2.17, h: 2.9 },
+  { id: 'p1.g4', img: 'p1/debate', side: 1, z: -100.95, y: 3.4, w: 2.9, h: 2.17 },
+  { id: 'p1.g5', img: 'p1/smile', side: -1, z: -106.95, y: 3.55, w: 2.32, h: 3.19 },
 ]
 
-export const HOUSE = { z0: -271, z1: -296, halfW: 1.6 }
-export const GLASS = { center: v(0, 1.42, -304), w: 1.25, h: 0.78 }
+export const HOUSE = { z0: -141.4, z1: -166.4, halfW: 1.6 }
+export const GLASS = { center: v(0, 1.42, -174.4), w: 1.25, h: 0.78 }

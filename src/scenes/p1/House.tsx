@@ -174,10 +174,10 @@ const heightsPromise: Promise<Texture> =
 // ── the scene ───────────────────────────────────────────────────────────────
 const PANES = [
   // side, z centre, width — left panes show the fight; right panes the plate and the mother
-  { side: -1, z: -275, w: 4.4, kind: 'fight' },
-  { side: -1, z: -280, w: 4.4, kind: 'empty' },
-  { side: 1, z: -277.5, w: 4.4, kind: 'plate' },
-  { side: 1, z: -282.5, w: 4.4, kind: 'mother' },
+  { side: -1, z: -145.4, w: 4.4, kind: 'fight' },
+  { side: -1, z: -150.4, w: 4.4, kind: 'empty' },
+  { side: 1, z: -147.9, w: 4.4, kind: 'plate' },
+  { side: 1, z: -152.9, w: 4.4, kind: 'mother' },
 ] as const
 const PANE_H = 2.4
 
@@ -253,8 +253,8 @@ function House({ range: r }: { range: SceneRange }) {
     // lamps behind the glass spill onto the corridor floor
     panes.forEach((pn) => sceneLights.push(pn.side * (W + 0.6), 1.6, pn.z, 5, 1, 0.78, 0.5, 3.4 * glow))
     // a bare bulb over the height marks
-    sceneLights.push(0.6, 2.3, -288.5, 5, 1, 0.84, 0.6, 3.5 * smoothstep(3.3, 4.0, u) * (1 - smoothstep(5.6, 6, u)))
-    setAnchor('p1.heights', W - 0.05, 1.9, -288.4)
+    sceneLights.push(0.6, 2.3, -158.9, 5, 1, 0.84, 0.6, 3.5 * smoothstep(3.3, 4.0, u) * (1 - smoothstep(5.6, 6, u)))
+    setAnchor('p1.heights', W - 0.05, 1.9, -158.8)
 
     // the hands: our child's hand rises; a tiny hand takes the finger
     const cam = view.camera
@@ -306,13 +306,13 @@ function House({ range: r }: { range: SceneRange }) {
         </group>
       ))}
       {/* plain walls between and after the panes */}
-      <mesh material={wall} position={[-W, 1.3, -289]} rotation-y={Math.PI / 2}>
+      <mesh material={wall} position={[-W, 1.3, -159.4]} rotation-y={Math.PI / 2}>
         <planeGeometry args={[14, 2.6]} />
       </mesh>
-      <mesh material={wall} position={[W, 1.3, -292]} rotation-y={-Math.PI / 2}>
+      <mesh material={wall} position={[W, 1.3, -162.4]} rotation-y={-Math.PI / 2}>
         <planeGeometry args={[8, 2.6]} />
       </mesh>
-      <mesh material={heightsMat} position={[W - 0.01, 1.3, -288.4]} rotation-y={-Math.PI / 2}>
+      <mesh material={heightsMat} position={[W - 0.01, 1.3, -158.8]} rotation-y={-Math.PI / 2}>
         <planeGeometry args={[1.7, 2.55]} />
       </mesh>
       <primitive object={child.root} />
@@ -325,14 +325,14 @@ export const houseSpec: SceneSpec = {
   id: 'p1.house',
   Component: House,
   camera: [
-    { u: 0, pos: [0, 1.5, -262.5], at: [0, 1.9, -272] },
-    { u: 1.0, pos: [0, 1.18, -270.8], at: [0, 1.1, -280] },
-    { u: 1.9, pos: [0.1, 1.05, -273.6], at: [-1.6, 1.35, -275.5], tension: 0.3 },
-    { u: 2.9, pos: [0, 1.05, -276], at: [1.6, 1.4, -277.8], tension: 0.3 },
-    { u: 3.8, pos: [-0.1, 1.05, -279.6], at: [1.6, 1.15, -282.8] },
-    { u: 4.55, pos: [-0.15, 1.05, -284.6], at: [0.45, 0.78, -285.6], tension: 0.6 },
-    { u: 5.3, pos: [-0.2, 1.06, -286.4], at: [1.6, 1.7, -288.4], tension: 0.3 },
-    { u: 6.0, pos: [0, 1.2, -290.5], at: [0, 1.32, -304] },
+    { u: 0, pos: [0, 1.5, -132.9], at: [0, 1.9, -142.4] },
+    { u: 1.0, pos: [0, 1.18, -141.2], at: [0, 1.1, -150.4] },
+    { u: 1.9, pos: [0.1, 1.05, -144], at: [-1.6, 1.35, -145.9], tension: 0.3 },
+    { u: 2.9, pos: [0, 1.05, -146.4], at: [1.6, 1.4, -148.2], tension: 0.3 },
+    { u: 3.8, pos: [-0.1, 1.05, -150], at: [1.6, 1.15, -153.2] },
+    { u: 4.55, pos: [-0.15, 1.05, -155], at: [0.45, 0.78, -156], tension: 0.6 },
+    { u: 5.3, pos: [-0.2, 1.06, -156.8], at: [1.6, 1.7, -158.8], tension: 0.3 },
+    { u: 6.0, pos: [0, 1.2, -160.9], at: [0, 1.32, -174.4] },
   ],
   look: [
     { u: 0, exposure: 0.15, saturation: 0.75, tint: [1.02, 0.97, 0.9], paint: 0.5, ink: 0.45, inkFar: 18, vignette: 0.7 },

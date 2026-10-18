@@ -94,7 +94,11 @@ export function tunnelGeometry(curve: Curve<Vector3>, o: TunnelOpts = {}) {
  * outer shell blocks the view from the tunnel and the chamber "pops" into existence
  * the moment the camera crosses the shell (bug fixed 2026-10-12, P1-05).
  */
-export function domeGeometry({ radius = 18, center = [0, 6, -54] as readonly number[], seg = 96, rough = 2.2, seed = 9, floorY = 0, colorA = '#1f1e24', colorB = '#08080a', mouth = 0 } = {}) {
+/**
+ * `backCut`: drop every quad lying entirely behind this z (the dome's back cap). A flat wall
+ * built at that z seals the chamber instead, so a room can continue behind it.
+ */
+export function domeGeometry({ radius = 18, center = [0, 6, -54] as readonly number[], seg = 96, rough = 2.2, seed = 9, floorY = 0, colorA = '#1f1e24', colorB = '#08080a', mouth = 0, backCut = -Infinity } = {}) {
   const rings = seg / 2
   const pos = new Float32Array((rings + 1) * (seg + 1) * 3)
   const col = new Float32Array((rings + 1) * (seg + 1) * 3)
@@ -131,6 +135,7 @@ export function domeGeometry({ radius = 18, center = [0, 6, -54] as readonly num
         if (dz > 1 - mouth && dy < 0.42 - Math.abs(dx) * 0.6) continue
       }
       const a = i * (seg + 1) + j, b = a + seg + 1
+      if (pos[a * 3 + 2] < backCut && pos[b * 3 + 2] < backCut && pos[(a + 1) * 3 + 2] < backCut && pos[(b + 1) * 3 + 2] < backCut) continue
       idx.push(a, b, a + 1, b, b + 1, a + 1)
     }
   const g = new BufferGeometry()

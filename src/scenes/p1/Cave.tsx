@@ -269,6 +269,10 @@ function Cave({ range: r }: { range: SceneRange }) {
     r,
     (u) => {
       const t = film.t
+      // once you're deep in the chamber the cave's lights stop mattering — fade them out so
+      // the shared light pool (12 slots) is free for the frame and the gallery behind it
+      const away = 1 - smoothstep(r.length + 1.5, r.length + 3, u)
+      if (away <= 0) return
       // a faint warm fill (the light that bounces around any cave): the walls never
       // fall to pure black between paintings, but the filament still owns the frame
       if (u < r.length) {
@@ -287,14 +291,14 @@ function Cave({ range: r }: { range: SceneRange }) {
       fil.material.uniforms.uTime.value = film.clock
       // the filament lights the world: a hot head and a soft glow behind it
       const head = FILAMENT_CURVE.getPointAt(clamp(reveal - 0.004))
-      sceneLights.push(head.x, head.y + 0.25, head.z, 6, 1, 0.7, 0.38, 6)
+      sceneLights.push(head.x, head.y + 0.25, head.z, 6, 1, 0.7, 0.38, 6 * away)
       const mid = FILAMENT_CURVE.getPointAt(clamp(reveal - 0.05))
-      sceneLights.push(mid.x, mid.y + 0.2, mid.z, 4.5, 1, 0.7, 0.38, 2.4)
+      sceneLights.push(mid.x, mid.y + 0.2, mid.z, 4.5, 1, 0.7, 0.38, 2.4 * away)
       const near = FILAMENT_CURVE.getPointAt(clamp(reveal - 0.1))
-      sceneLights.push(near.x, near.y + 0.2, near.z, 4, 1, 0.68, 0.36, 2.2)
+      sceneLights.push(near.x, near.y + 0.2, near.z, 4, 1, 0.68, 0.36, 2.2 * away)
       // a cold grazing light far ahead on the stone
       const ahead = CAVE_CURVE.getPointAt(clamp(0.18 + range(u, 0, 8) * 0.75))
-      sceneLights.push(ahead.x - 1.6, 2.5, ahead.z - 5, 7, 0.5, 0.58, 0.78, 1.4)
+      sceneLights.push(ahead.x - 1.6, 2.5, ahead.z - 5, 7, 0.5, 0.58, 0.78, 1.4 * away)
 
       // each painting is warmed by a low light while the camera holds on it — like a
       // torch held up to the rock. Faded on u, never switched (no pops).

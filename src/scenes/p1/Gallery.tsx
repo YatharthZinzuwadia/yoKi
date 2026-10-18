@@ -2,19 +2,20 @@
 // flashbulb hits them. Then the walls open their eyes — hundreds, wet, all on us.
 
 import { useMemo } from 'react'
-import { Color, InstancedBufferAttribute, InstancedMesh, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from 'three'
+import { Color, InstancedBufferAttribute, InstancedMesh, MeshBasicMaterial, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from 'three'
 import { audio } from '../../audio/engine'
 import type { SceneRange } from '../../content/film'
 import { setAnchor, view } from '../../engine/anchors'
 import { film } from '../../engine/director'
-import { fx, sceneLights } from '../../engine/fx'
+import { env, fx, sceneLights } from '../../engine/fx'
 import { clamp, rng, smoothstep } from '../../engine/math'
 import { makeTriggers } from '../../engine/triggers'
 import { sepiaPortrait, useImage } from '../../gl/parts/images'
-import { painted } from '../../gl/materials/painted'
+import { painted, triSet } from '../../gl/materials/painted'
+import { buildRoom } from '../../gl/parts/roomKit'
 import { SceneRoot, useSceneFrame } from '../SceneRoot'
 import type { SceneSpec } from '../types'
-import { GALLERY, GALLERY_FRAMES } from './world'
+import { GALLERY, GALLERY_FRAMES, STUDIO_WALL } from './world'
 
 /** Flash times (scene-local units) → which frame they hit (-1 = a distant audience flash). */
 const FLASHES: [number, number][] = [
@@ -80,8 +81,26 @@ function Gallery({ range: r }: { range: SceneRange }) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useImage(f.img, sepiaPortrait(20 + i, i === 2 ? 'stage' : i === 3 ? 'object' : 'child'), [768, 1024]),
   )
-  const wall = useMemo(() => painted({ color: '#141317', roughness: 0.92, bands: 0.15 }), [])
-  const floor = useMemo(() => painted({ color: '#0d0d10', roughness: 0.32, metalness: 0.1, bands: 0.1 }), [])
+  // P1-08: a real room — museum hall meets school assembly hall (see gl/parts/roomKit.ts)
+  const room = useMemo(() => {
+    const plaster = triSet('plaster001'), wood = triSet('wood049'), parquet = triSet('woodfloor041')
+    return buildRoom(
+      {
+        x0: -GALLERY.halfW, x1: GALLERY.halfW, y1: GALLERY.height,
+        z0: STUDIO_WALL.z - 0.5, z1: GALLERY.z1,
+        wainscot: 1.2, pictureRail: 5.6, pilasterEvery: GALLERY.pilasterEvery, beamsEvery: 3,
+        endDoor: { x: 0, w: 2.2, h: 2.5 },
+      },
+      {
+        wall: painted({ color: '#8a8178', roughness: 0.9, tri: { set: plaster, scale: 0.6, normal: 0.6, rough: 0.5, tint: [1.2, 1.15, 1.1] } }),
+        wood: painted({ color: '#6b4a33', roughness: 0.55, tri: { set: wood, scale: 0.8, normal: 0.8, rough: 0.5, tint: [1.3, 1.2, 1.1] } }),
+        trim: painted({ color: '#3d2e24', roughness: 0.5, tri: { set: wood, scale: 1.2, normal: 0.5, rough: 0.4, tint: [1.2, 1.1, 1.0] } }),
+        floor: painted({ color: '#a8875f', roughness: 0.3, tri: { set: parquet, scale: 0.45, normal: 0.7, rough: 0.35, tint: [1.2, 1.1, 1.0] } }),
+        ceiling: painted({ color: '#57524c', roughness: 0.95, tri: { set: plaster, scale: 0.4, normal: 0.5, rough: 0.6, tint: [1.1, 1.08, 1.05] } }),
+        glass: new MeshBasicMaterial({ color: '#46505f', toneMapped: false }),
+      },
+    )
+  }, [])
   const lacquer = useMemo(() => painted({ color: '#0b0a0c', roughness: 0.2, bands: 0.06, rim: [0.9, 0.8, 0.7, 0.2] }), [])
   const brass = useMemo(() => painted({ color: '#c99545', roughness: 0.35, metalness: 1 }), [])
   const photoMats = useMemo(() => imgs.map((map) => painted({ map, roughness: 0.55, bands: 0.05 })), [imgs])
@@ -105,7 +124,7 @@ function Gallery({ range: r }: { range: SceneRange }) {
         let x = (R() - 0.5) * 8.6
         if (Math.abs(x) < 1.7) x = Math.sign(x || 1) * (1.7 + R() * 2.4)
         pos = new Vector3(x, 0.5 + R() * 7, GALLERY.z1 + 0.12)
-      } else pos = new Vector3(side * (GALLERY.halfW - 0.08), 0.5 + R() * 7, -232 - R() * 37)
+      } else pos = new Vector3(side * (GALLERY.halfW - 0.08), 0.5 + R() * 7, -102.4 - R() * 37)
       const c = palette[Math.floor(R() * palette.length)]
       iris.set([c.r, c.g, c.b], i * 3)
       return { pos, s: 0.05 + R() ** 1.6 * 0.2, start: 4.3 + R() * 1.8, blink: R() * 9, rate: 3 + R() * 5 }
@@ -115,8 +134,7 @@ function Gallery({ range: r }: { range: SceneRange }) {
     return { mesh, mat, open, data, o: new Object3D() }
   }, [])
 
-  const z0 = GALLERY.z0, z1 = GALLERY.z1, W = GALLERY.halfW, H = GALLERY.height
-  const len = z0 - z1 + 8
+  const z1 = GALLERY.z1, W = GALLERY.halfW
   const emptyFrame = useMemo(() => new Object3D(), [])
 
   useSceneFrame(r, (u) => {
@@ -136,20 +154,34 @@ function Gallery({ range: r }: { range: SceneRange }) {
         sceneLights.push(f.side * 1.6, f.y + 0.6, f.z + 2.6, 10, 1, 0.97, 0.92, 26 * e)
         flashSum += e
       } else {
-        const zz = -205 - k * 3.5
+        const zz = -75.4 - k * 3.5
         sceneLights.push((k % 2 ? 1 : -1) * 3, 4.5, zz, 9, 1, 0.97, 0.92, 9 * e)
         flashSum += e * 0.35
       }
     })
     fx.flash += clamp(flashSum * 0.16, 0, 0.22)
-    // ambient + the steady beam on the last, empty frame
-    sceneLights.push(0, 6, z0 - 6, 14, 0.4, 0.42, 0.5, 0.8)
+    // the room's own light: moonlight through the skylights (the global sun, with shadows, so
+    // the coffer beams stripe the floor), a cool fill, and a warm picture light per photo
+    const cam = view.camera
+    const into = smoothstep(-2, 0.4, u) * (1 - smoothstep(r.length + 0.2, r.length + 1.2, u))
+    env.hemiSky[0] = 0.07 + 0.14 * into; env.hemiSky[1] = 0.075 + 0.16 * into; env.hemiSky[2] = 0.09 + 0.2 * into
+    env.hemiGround[0] = 0.07 * into + 0.01; env.hemiGround[1] = 0.06 * into + 0.01; env.hemiGround[2] = 0.05 * into + 0.012
+    env.sunIntensity = 3.4 * into
+    env.sunColor[0] = 0.62; env.sunColor[1] = 0.72; env.sunColor[2] = 0.95
+    env.sunDir[0] = 0.32; env.sunDir[1] = 1; env.sunDir[2] = -0.28
+    if (cam) {
+      env.sunTarget[0] = 0; env.sunTarget[1] = 0; env.sunTarget[2] = cam.position.z - 12
+      GALLERY_FRAMES.forEach((f) => {
+        const d = Math.abs(cam.position.z - f.z)
+        const k = 1 - smoothstep(10, 20, d)
+        sceneLights.push(f.side * (W - 0.7), f.y + f.h / 2 + 0.45, f.z, 4.6, 1, 0.82, 0.58, 2.4 * k * into)
+      })
+    }
     const beam = smoothstep(5.9, 6.8, u)
     sceneLights.push(0, 3.2, z1 + 5, 9, 1, 0.9, 0.75, 4.5 * beam)
     sceneLights.push(0, 7.4, z1 + 2, 6, 1, 0.92, 0.8, 3 * beam)
 
     // eyes
-    const cam = view.camera
     const { mesh, mat, open, data, o } = eyes
     mat.uniforms.uLight.value = clamp(flashSum * 1.2 + beam * 0.25, 0, 1.6)
     const closeAll = smoothstep(7.0, 7.6, u)
@@ -168,40 +200,16 @@ function Gallery({ range: r }: { range: SceneRange }) {
 
     // the empty frame grows into a doorway
     const grow = smoothstep(6.5, 8.0, u)
-    emptyFrame.scale.set(1 + grow * 1.0, 1 + grow * 1.35, 1)
-    emptyFrame.position.y = 2.45 - grow * 0.45
+    // …until its opening is exactly the doorway in the end wall (2.2 × 2.5 m)
+    emptyFrame.scale.set(1 + grow * 0.55, 1 + grow * 0.257, 1)
+    emptyFrame.position.y = 2.45 - grow * 1.2
 
     GALLERY_FRAMES.forEach((f) => setAnchor(f.id, f.side * (W - 0.1), f.y + f.h / 2 + 0.05, f.z))
-  })
+  }, { before: 2 })
 
   return (
-    <SceneRoot range={r}>
-      {/* room */}
-      <mesh material={floor} rotation-x={-Math.PI / 2} position={[0, 0, z0 - len / 2 + 4]} receiveShadow>
-        <planeGeometry args={[W * 2, len]} />
-      </mesh>
-      <mesh material={wall} rotation-x={Math.PI / 2} position={[0, H, z0 - len / 2 + 4]}>
-        <planeGeometry args={[W * 2, len]} />
-      </mesh>
-      <mesh material={wall} rotation-y={Math.PI / 2} position={[-W, H / 2, z0 - len / 2 + 4]}>
-        <planeGeometry args={[len, H]} />
-      </mesh>
-      <mesh material={wall} rotation-y={-Math.PI / 2} position={[W, H / 2, z0 - len / 2 + 4]}>
-        <planeGeometry args={[len, H]} />
-      </mesh>
-      <mesh material={wall} position={[0, H / 2, z0 + 4]} rotation-y={Math.PI}>
-        <planeGeometry args={[W * 2, H]} />
-      </mesh>
-      {/* end wall with the doorway opening (x ±1.3, y 0..4) */}
-      <mesh material={wall} position={[-(W + 1.3) / 2, H / 2, z1]}>
-        <boxGeometry args={[W - 1.3, H, 0.2]} />
-      </mesh>
-      <mesh material={wall} position={[(W + 1.3) / 2, H / 2, z1]}>
-        <boxGeometry args={[W - 1.3, H, 0.2]} />
-      </mesh>
-      <mesh material={wall} position={[0, 4 + (H - 4) / 2, z1]}>
-        <boxGeometry args={[2.6, H - 4, 0.2]} />
-      </mesh>
+    <SceneRoot range={r} before={2}>
+      <primitive object={room} />
       {/* the frames */}
       {GALLERY_FRAMES.map((f, i) => (
         <group key={f.id} position={[f.side * (W - 0.06), f.y, f.z]} rotation-y={-f.side * Math.PI / 2}>
@@ -220,6 +228,13 @@ function Gallery({ range: r }: { range: SceneRange }) {
           ))}
           <mesh material={brass} position={[0, -f.h / 2 - 0.25, 0.04]}>
             <boxGeometry args={[0.5, 0.06, 0.02]} />
+          </mesh>
+          {/* the picture light: a brass hood on an arm, above the frame */}
+          <mesh material={brass} position={[0, f.h / 2 + 0.42, 0.32]} rotation-x={0.5}>
+            <boxGeometry args={[Math.min(1.2, f.w * 0.5), 0.07, 0.16]} />
+          </mesh>
+          <mesh material={brass} position={[0, f.h / 2 + 0.3, 0.16]} rotation-x={-0.9}>
+            <boxGeometry args={[0.03, 0.03, 0.38]} />
           </mesh>
         </group>
       ))}
@@ -245,21 +260,21 @@ export const gallerySpec: SceneSpec = {
   id: 'p1.gallery',
   Component: Gallery,
   camera: [
-    { u: 0, pos: [0, 1.62, -197], at: [0, 1.85, -210], fov: 55, cut: true },
-    { u: 0.95, pos: [0, 1.62, -204.5], at: [2.6, 2.4, -212] },
-    { u: 1.9, pos: [0, 1.62, -211.5], at: [-2.6, 2.3, -219] },
-    { u: 2.9, pos: [0, 1.62, -218.5], at: [2.6, 2.2, -226] },
-    { u: 3.9, pos: [0, 1.62, -226.5], at: [-2.6, 2.6, -234] },
-    { u: 4.85, pos: [0, 1.62, -234.5], at: [2.6, 2.3, -242] },
-    { u: 5.8, pos: [0, 1.62, -242.5], at: [-1.2, 2.6, -252] },
-    { u: 6.8, pos: [0, 1.6, -251], at: [0, 2.4, -270], tension: 0.4 },
-    { u: 8.0, pos: [0, 1.5, -262.5], at: [0, 1.9, -272] },
+    // continuous with the frame scene: still walking, through the photograph
+    { u: 0, pos: [0.15, 1.78, -62.6], at: [0.05, 2.0, -75], fov: 55 },
+    { u: 0.95, pos: [0, 1.62, -69.9], at: [2.6, 3.3, -76.95] },
+    { u: 1.9, pos: [0, 1.62, -75.9], at: [-2.6, 3.2, -82.95] },
+    { u: 2.9, pos: [0, 1.62, -81.9], at: [2.6, 3.1, -88.95] },
+    { u: 3.9, pos: [0, 1.62, -87.9], at: [-2.6, 3.4, -94.95] },
+    { u: 4.85, pos: [0, 1.62, -93.9], at: [2.6, 3.2, -100.95] },
+    { u: 5.8, pos: [0, 1.62, -99.9], at: [-1.6, 3.3, -106.95] },
+    { u: 6.8, pos: [0, 1.6, -112], at: [0, 2.4, -140.4], tension: 0.4 },
+    { u: 8.0, pos: [0, 1.5, -132.9], at: [0, 1.9, -142.4] },
   ],
   look: [
-    { u: 0, veilWhite: 1, exposure: 0.2, saturation: 0.7, contrast: 1.18, paint: 0.45, ink: 0.6, inkFar: 34, vignette: 0.65, tint: [1.0, 0.97, 0.93] },
-    { u: 0.55, veilWhite: 0 },
+    { u: 0, exposure: 0.2, saturation: 0.7, contrast: 1.18, paint: 0.45, ink: 0.6, inkFar: 34, vignette: 0.65, tint: [1.0, 0.97, 0.93] },
     { u: 4.5, saturation: 0.6 },
     { u: 8, exposure: 0.1 },
   ],
-  fog: { color: '#040405', near: 6, far: 34 },
+  fog: { color: '#050506', near: 10, far: 52 },
 }

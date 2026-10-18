@@ -401,16 +401,16 @@ function Name({ range: r }: { range: SceneRange }) {
 
 // The camera arrives from the house corridor, stops at the sink, and is then LOCKED.
 // Every arrival key has tension 1 (zero velocity) so the Hermite curve cannot overshoot.
-const EZ = -304 + EYE.dz
+const EZ = -174.4 + EYE.dz
 export const nameSpec: SceneSpec = {
   id: 'p1.name',
   Component: Name,
   camera: [
-    { u: 0, pos: [0, 1.2, -290.5], at: [0, 1.32, -304] },
-    { u: 0.8, pos: [0.01, 1.42, -298.2], at: [0, 1.42, -304] },
-    { u: 1.5, pos: [EYE.x, EYE.y, EZ], at: [0, 1.43, -304], fov: 58, tension: 1 },
-    { u: 4.2, pos: [EYE.x, EYE.y, EZ - 0.02], at: [0, 1.43, -304], fov: 58, tension: 1 },
-    { u: 6.0, pos: [EYE.x, EYE.y - 0.01, EZ - 0.06], at: [0, 1.43, -304], fov: 58, tension: 1 },
+    { u: 0, pos: [0, 1.2, -160.9], at: [0, 1.32, -174.4] },
+    { u: 0.8, pos: [0.01, 1.42, -168.6], at: [0, 1.42, -174.4] },
+    { u: 1.5, pos: [EYE.x, EYE.y, EZ], at: [0, 1.43, -174.4], fov: 58, tension: 1 },
+    { u: 4.2, pos: [EYE.x, EYE.y, EZ - 0.02], at: [0, 1.43, -174.4], fov: 58, tension: 1 },
+    { u: 6.0, pos: [EYE.x, EYE.y - 0.01, EZ - 0.06], at: [0, 1.43, -174.4], fov: 58, tension: 1 },
   ],
   look: [
     { u: 0, exposure: -0.3, saturation: 0.7, paint: 0.3, ink: 0.25, inkFar: 8, vignette: 0.7, bloom: 0.9, tint: [1.02, 0.98, 0.93] },
