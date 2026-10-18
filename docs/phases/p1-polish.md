@@ -257,7 +257,7 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [x] P1-01 hands (MPFB2 bodies → POV arms adult/teen/child/baby via headless Blender, 2-bone IK, kada on wrist — commit b75e5ac)
 - [x] P1-02 entry transition (sigil zooms through its left eye; `film.intro` 0→1 over 3 s lifts the black and glides the camera in; scroll unlocks on arrival)
 - [ ] P1-03 sigil likeness + idle
-- [ ] P1-04 cave v2
+- [x] P1-04 cave v2 (sandstone strata + triplanar Rock061; five canvas-drawn Bhimbetka pictographs as decals — born / the gaze / the pose / home / the hand stencil with the kada ring; drips from real stalactite tips; filament-mirroring puddle; walking light; flat floor; 'site I' context card + catalogue labels with ages; cave 7→8 units)
 - [x] P1-05 no-pop cave→chamber (dome mouth carved; lights fade on u; fog extended)
 - [ ] P1-06 modelling frame + studio (**anchor swapped to modelling ✓**, Colgate on the gallery wall ✓; studio dressing TODO)
 - [ ] P1-07 walk through the photograph

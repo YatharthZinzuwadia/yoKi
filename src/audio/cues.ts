@@ -7,8 +7,8 @@ type Curve = { bed: string; scene: string; keys: [u: number, gain: number][] }
 
 const CURVES: Curve[] = [
   // 01 — the cave: air + low drone; the gallery: crowd murmur; the house: room tone + hum
-  { bed: 'air', scene: 'p1.cave', keys: [[0, 0.5], [6, 0.55], [7, 0.3]] },
-  { bed: 'droneLow', scene: 'p1.cave', keys: [[0, 0.0], [2, 0.18], [7, 0.22]] },
+  { bed: 'air', scene: 'p1.cave', keys: [[0, 0.5], [7, 0.55], [8, 0.3]] },
+  { bed: 'droneLow', scene: 'p1.cave', keys: [[0, 0.0], [2, 0.18], [8, 0.22]] },
   { bed: 'droneLow', scene: 'p1.frame', keys: [[0, 0.22], [5, 0.28]] },
   { bed: 'air', scene: 'p1.frame', keys: [[0, 0.3], [5, 0.2]] },
   { bed: 'crowd', scene: 'p1.gallery', keys: [[0, 0], [1.5, 0.12], [5.5, 0.32], [7.2, 0.0]] },

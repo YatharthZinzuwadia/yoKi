@@ -15,5 +15,6 @@
 | Asset | Source | Licence |
 |---|---|---|
 | `public/textures/rock030_*`, `plaster001_*`, `woodfloor041_*`, `wood049_*`, `concrete034_*` | ambientCG.com (Rock030, Plaster001, WoodFloor041, Wood049, Concrete034, 1K-JPG → WebP) | CC0 |
+| `public/textures/rock061_*` | ambientCG.com (Rock061, 1K-JPG → WebP) — rock061's horizontal strata = the sandstone of the cave shelter | CC0 |
 | `public/models/yoki-body.glb`, `arm-adult.glb`, `arm-teen.glb`, `arm-child.glb`, `arm-baby.glb` | Generated with MPFB2 (MakeHuman for Blender) by `tools/blender/make_body.py` + `tools/blender/presets/*.json` | CC0 (MakeHuman assets); MPFB2 code is GPL-3 and is not shipped |
 | `n8ao` (npm) | Ambient occlusion pass by N8python | ISC |

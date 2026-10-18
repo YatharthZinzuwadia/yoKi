@@ -16,10 +16,16 @@ export interface TunnelOpts {
   colorB?: string
   /** Radius multiplier along the tunnel (s: 0..1). */
   flare?: (s: number) => number
+  /**
+   * Sandstone strata: horizontal ledges carved into the walls (metres of relief).
+   * HOW: the wall is pushed in/out by a sharpened sine of the height (|sin|^6 gives thin
+   * bands), with noise added to the height so the beds wander like real sediment.
+   */
+  strata?: number
 }
 
 export function tunnelGeometry(curve: Curve<Vector3>, o: TunnelOpts = {}) {
-  const { rings = 260, sides = 36, width = 2.1, height = 2.7, floor = 0, rough = 0.55, seed = 3, colorA = '#24232a', colorB = '#0c0c0f', flare = () => 1 } = o
+  const { rings = 260, sides = 36, width = 2.1, height = 2.7, floor = 0, rough = 0.55, seed = 3, colorA = '#24232a', colorB = '#0c0c0f', flare = () => 1, strata = 0 } = o
   const pos = new Float32Array((rings + 1) * (sides + 1) * 3)
   const col = new Float32Array((rings + 1) * (sides + 1) * 3)
   const ca = new Color(colorA), cb = new Color(colorB), c = new Color()
@@ -42,16 +48,24 @@ export function tunnelGeometry(curve: Curve<Vector3>, o: TunnelOpts = {}) {
       Q.copy(P).addScaledVector(B, cx * w).addScaledVector(N, cy * h * 0.5 + h * 0.5)
       const n = fbm3(Q.x * 0.55 + seed, Q.y * 0.55, Q.z * 0.55, 5)
       const ridge = Math.abs(noise3(Q.x * 1.7, Q.y * 2.3 + seed, Q.z * 1.7))
-      const disp = (n * 0.9 + ridge * 0.35) * rough
+      // strata only on the walls (|cos| ≈ 1), not the floor or the ceiling
+      const wall = Math.abs(cx)
+      const bed = Math.pow(Math.abs(Math.sin(Math.PI * (Q.y * 2.4 + n * 0.9))), 6)
+      const disp = (n * 0.9 + ridge * 0.35) * rough - bed * strata * wall
       Q.addScaledVector(B, -cx * disp).addScaledVector(N, -cy * disp * 0.8)
-      if (Q.y < P.y + floor) {
-        // flatten into a walkable floor with gentle noise
-        Q.y = P.y + floor + noise3(Q.x * 1.3, Q.z * 1.3, seed) * 0.05
+      // the bottom third of the ring is the floor: flattened (sediment settles flat) with
+      // gentle noise, so anything laid on it — the filament, a puddle — sits ON it.
+      // `cy < -0.5` blends the flattening in so the floor meets the walls without a crease.
+      const floorK = cy < -0.5 ? Math.min(1, (-0.5 - cy) / 0.25) : 0
+      if (Q.y < P.y + floor || floorK > 0) {
+        const flat = P.y + floor + noise3(Q.x * 1.3, Q.z * 1.3, seed) * 0.035
+        Q.y = Q.y < P.y + floor ? flat : Q.y + (flat - Q.y) * floorK
       }
       pos[v * 3] = Q.x
       pos[v * 3 + 1] = Q.y
       pos[v * 3 + 2] = Q.z
-      const k = Math.min(1, Math.max(0, 0.5 + n * 1.2 - ridge * 0.4))
+      // colour: crevices darker, ledge tops (beds) lighter — reads as layered stone
+      const k = Math.min(1, Math.max(0, 0.5 + n * 1.2 - ridge * 0.4 + bed * 0.35 * wall))
       c.copy(cb).lerp(ca, k)
       col[v * 3] = c.r
       col[v * 3 + 1] = c.g

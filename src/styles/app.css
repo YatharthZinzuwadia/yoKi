@@ -98,7 +98,7 @@ html.has-kada, html.has-kada * { cursor: none !important; }
 .annotation {
   position: absolute; left: 0; top: 0; width: 0; height: 0;
   visibility: hidden; opacity: 0; will-change: transform, opacity;
-  font-size: 11px; letter-spacing: 0.08em; text-transform: lowercase; color: var(--bone);
+  font-size: 12px; letter-spacing: 0.08em; text-transform: lowercase; color: var(--bone);
 }
 .annotation .leader { position: absolute; top: -44px; overflow: visible; }
 .annotation.side-right .leader { left: 0; }
@@ -109,9 +109,12 @@ html.has-kada, html.has-kada * { cursor: none !important; }
   position: absolute; top: -44px; white-space: nowrap; padding: 0 6px;
   translate: 0 -50%; text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
 }
+.annotation .label .sub { display: block; margin-top: 4px; font-size: 10.5px; letter-spacing: 0.1em; opacity: 0.62; }
 .annotation.side-right .label { left: 72px; }
 .annotation.side-left .label { right: 72px; }
 .annotation.screen-counter { left: auto; right: clamp(20px, 3vw, 40px); top: clamp(20px, 4vh, 40px); width: auto; height: auto; }
+.annotation.screen-context { left: clamp(20px, 3vw, 40px); top: clamp(56px, 9vh, 90px); width: auto; height: auto; }
+.annotation.screen-context .label { position: static; translate: none; font-size: 12px; letter-spacing: 0.14em; }
 .annotation.screen-counter .label { position: static; translate: none; font-variant-numeric: tabular-nums; color: var(--ash); }
 
 /* ── threshold sigil ────────────────────────────────────────────────────── */

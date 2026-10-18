@@ -94,7 +94,9 @@ export function Annotations() {
                 (k >= 0.999 ? (a.counter.suffix ?? '') : ''),
             )
             const lab = labels.current[i]
-            if (lab && lab.textContent !== txt) lab.textContent = txt
+            // update only the first text node so an optional <small class="sub"> survives
+            const node = lab?.firstChild
+            if (node && node.nodeType === Node.TEXT_NODE && node.nodeValue !== txt) node.nodeValue = txt
           }
         })
       }),
@@ -123,6 +125,7 @@ export function Annotations() {
             className="label"
           >
             {a.text.replace('{n}', String(a.counter?.from ?? ''))}
+            {a.sub && <small className="sub">{a.sub}</small>}
           </span>
         </div>
       ))}

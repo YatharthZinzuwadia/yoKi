@@ -50,7 +50,12 @@ A normal scroll site moves DOM sections. yoKi has **one number, `film.t`** (film
 
 | Effect | How | File |
 |---|---|---|
-| Cave tunnel | A tube swept along a Catmull-Rom curve, each ring's vertices pushed by 3D Perlin noise (fbm). The floor is flattened. Crevices darken via vertex colours. | `src/gl/parts/caveGeometry.ts` |
+| Cave tunnel | A tube swept along a Catmull-Rom curve, each ring's vertices pushed by 3D Perlin noise (fbm). **Strata:** a sharpened sine of the height (`|sin|^6`) carves thin horizontal ledges into the walls only, like sandstone beds. **Floor:** the bottom third of each ring is blended flat, so the filament and the puddle lie *on* it. | `src/gl/parts/caveGeometry.ts` |
+| Real stone on procedural rock | A CC0 photo-texture (ambientCG Rock061) **triplanar**-mapped: projected along X, Y and Z and blended by the surface normal, so a mesh with no UVs gets seamless texture. Light vertex colours only modulate it. Roughness comes from the texture, which is why it's matte, not shiny. | `src/gl/materials/painted.ts` |
+| The cave paintings | Drawn at load time in a 2D canvas with "pigment" helpers (strokes drawn 5× with jitter and low alpha; erosion by erasing specks and flakes). Five Bhimbetka-style pictographs: born, the gaze, the pose, home, the hand stencil with the kada ring. Placed by **raycasting** sideways from the cave's centre line to find the wall, then projected onto the rock with three's `DecalGeometry` so the paint follows every bump. The camera keys are derived from the same wall points. | `src/gl/parts/pictographs.ts`, `src/scenes/p1/caveLayout.ts` |
+| Stalactites dripping | One lumpy lathe shape, instanced. Each one's root is found by raycasting up to the ceiling. The water drips fall from real stalactite tips. | `src/scenes/p1/Cave.tsx` |
+| The puddle | three's `Reflector`, with two tricks: (1) its mirror camera sees only **layer 1** (the filament and drips), so it's cheap and never needs to re-light the rock; (2) **premultiplied blending**: the reflection is *added* while alpha darkens the stone under it, so it reads as shallow water, not a black hole. A drip falling into it drives an expanding ripple ring in the shader. | `Cave.tsx` |
+| Light that walks with you | The filament's lights run ahead of the camera, which left the walls beside you black. A soft warm light now rides 1.4 m in front of and below the camera, plus a gentle hemisphere fill, so the stone is always readable. | `Cave.tsx` |
 | The filament | A tube along a curve, with a shader that reveals it up to `uReveal` and puts a hot "head" at the tip. Scene lights follow the head, which is why the cave is lit by the line. | `src/gl/parts/Filament.tsx`, `src/scenes/p1/Cave.tsx` |
 | Drips | Instanced spheres falling on a wall-clock loop, with ring ripples on landing and a spatialised drip sound when you're near. | `Cave.tsx` |
 | Dust | Points that are only visible near scene lights (computed in the vertex shader), so dust exists only in beams. | `src/gl/parts/Dust.tsx` |
@@ -101,6 +106,12 @@ The probe scripts are kept in `tools/qa/nan*.mjs`.
 - **Fix:** `domeGeometry({ mouth })` skips the triangles facing the tunnel (`src/gl/parts/caveGeometry.ts`). The frame's lights now also fade in on `u` instead of switching on at the scene's visibility margin.
 - **Method:** `tools/qa/peek.mjs <t> <exposure>` screenshots a moment with forced exposure. If even +3 EV shows nothing, something is *occluding*, not under-lit.
 
-## 9. Blender (coming with P1-01 / P1-11)
+## 8c. A third bug: the filament that turned into dashes
 
-Blender will run **headless from scripts** (`blender -b -P tools/blender/<script>.py`): create figures (MakeHuman / MPFB2, CC0), pose them, and export `.glb` to `public/models/`. Each script will get a section here explaining it line by line. If you want to try Blender by hand, start with `docs/guides/02-blender-from-zero.md`.
+- **Symptom:** walking down the cave, the line of light broke into dashes.
+- **Cause:** the tunnel's floor vertices were only clamped from *below*. Noise displacement could push floor bumps up to 30 cm above the filament (which lies at 7.5 cm), hiding pieces of it.
+- **Fix:** blend the bottom third of each ring to a flat height (`caveGeometry.ts`). Rule: anything that lies on a surface needs that surface to be predictable.
+
+## 9. Blender (headless, from scripts)
+
+Blender runs **without its window** (`blender -b -P script.py -- args`). The full explanation, setup and every command are in **`tools/blender/README.md`**; the scripts themselves are commented step by step (start with `tools/blender/make_body.py`). In short, MakeHuman (MPFB2, CC0) builds a body from a JSON preset, fits a 53-bone skeleton, and exports `.glb`, and three.js poses the fingers by bone name. If you want to try Blender by hand, start with `docs/guides/02-blender-from-zero.md`.

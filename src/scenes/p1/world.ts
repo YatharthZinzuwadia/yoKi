@@ -33,12 +33,6 @@ export const FILAMENT_CURVE = new CatmullRomCurve3(
   'centripetal',
 )
 
-export const FOUND = {
-  sandal: v(0.95, 0.03, -7.9),
-  crayon: v(-1.05, 0.62, -14.8),
-  tooth: v(1.3, 1.02, -22.3),
-}
-
 export const GALLERY = { z0: -198, z1: -270, halfW: 4.6, height: 8 }
 
 export const GALLERY_FRAMES = [

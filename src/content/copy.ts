@@ -3,6 +3,7 @@
 // Statements are project-authored first-person lines (not literal quotes)
 // unless marked `quote: true`.
 
+import { PICTOGRAPHS } from '../gl/parts/pictographs'
 import type { SigilPart } from '../ui/sigil/paths'
 
 export interface Statement {
@@ -20,7 +21,9 @@ export interface Statement {
 
 export const STATEMENTS: Statement[] = [
   // 01 THE NAME
-  { scene: 'p1.cave', from: 3.2, to: 6.2, text: 'Before I had a name, I had an audience.' },
+  { scene: 'p1.cave', from: 2.15, to: 3.55, text: 'Before I had a name, I had an audience.' },
+  { scene: 'p1.cave', from: 5.0, to: 6.2, text: 'Two tall shadows. A line between them. Me, in the middle.' },
+  { scene: 'p1.cave', from: 6.65, to: 7.85, text: 'Every wall in here was painted by someone else. The hand is mine.' },
   { scene: 'p1.gallery', from: 3.6, to: 6.4, text: 'Smile. Again. Bigger.', at: 'high' },
   { scene: 'p1.house', from: 3.9, to: 5.6, text: 'Be the elder. Don’t cry.', at: 'left' },
   { scene: 'p1.name', from: 2.2, to: 3.9, text: 'They gave me a frame. I gave myself a name.' },
@@ -60,15 +63,25 @@ export interface Annotation {
   /** Name of a 3D anchor registered by the scene (see engine/anchors.ts). */
   anchor: string
   text: string
+  /** Optional second line in smaller, dimmer type (catalogue detail, measurements). */
+  sub?: string
   side?: 'left' | 'right'
   /** Optional counter: `{n}` in text is replaced with an animated number. */
   counter?: { from: number; to: number; decimals?: number; suffix?: string }
 }
 
 export const ANNOTATIONS: Annotation[] = [
-  { scene: 'p1.cave', from: 1.0, to: 2.6, anchor: 'p1.sandal', text: 'sandal · size 9 (child)', side: 'right' },
-  { scene: 'p1.cave', from: 2.4, to: 4.0, anchor: 'p1.crayon', text: 'crayon · “flesh”', side: 'left' },
-  { scene: 'p1.cave', from: 4.0, to: 5.8, anchor: 'p1.tooth', text: 'tooth · kept', side: 'right' },
+  // the cave paintings (labels + catalogue detail come from gl/parts/pictographs.ts; holds from Cave.tsx)
+  { scene: 'p1.cave', from: 0.25, to: 2.2, anchor: 'screen.context', text: 'site I — the first rooms', sub: 'a rock shelter · five paintings · one hand' },
+  ...PICTOGRAPHS.map((p, i): Annotation => ({
+    scene: 'p1.cave',
+    from: [1.15, 2.6, 4.05, 5.5, 6.95][i] - 0.55,
+    to: [1.15, 2.6, 4.05, 5.5, 6.95][i] + 0.8,
+    anchor: p.id,
+    text: p.label,
+    sub: p.sub,
+    side: p.side > 0 ? 'right' : 'left',
+  })),
   { scene: 'p1.frame', from: 1.6, to: 4.4, anchor: 'p1.frame.tl', text: 'fig. 1 — portfolio · age 9 · f/8 · 1/125', side: 'left' },
   { scene: 'p1.frame', from: 2.4, to: 4.4, anchor: 'p1.frame.smile', text: 'retakes: {n}', side: 'right', counter: { from: 0, to: 14 } },
   { scene: 'p1.gallery', from: 0.8, to: 2.6, anchor: 'p1.g0', text: 'featured · colgate · “best smile”', side: 'right' },
