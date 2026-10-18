@@ -263,7 +263,7 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 - [x] P1-07 walk through the photograph (world re-based: gallery/house/mirror +129.6 m so the gallery sits behind the frame; quarried STUDIO_WALL with the frame's opening; dome backCut; scrim print: back-lit flash → rolls up; continuous camera, no white-out)
 - [x] P1-08 gallery room (roomKit: wainscot/rails/baseboard/cornice/pilasters/coffers/skylights/door casing, triplanar plaster/wood/parquet; moonlight sun with beam shadows; warm picture lights with brass hoods; photos centred in 6 m bays; hall height 10.5 m)
 - [ ] P1-09 choreography, cabinet, physics
-- [ ] P1-10 eyes v2
+- [x] P1-10 eyes v2 (wall-set quads with skin sockets; 5 styles; pupils track the camera with saccades; 12–80 cm + giants up to 2.2 m; five opening waves; some weep blood; placements avoid frames/pilasters/rail/door/beams. Sound motif still with P1-16)
 - [ ] P1-11 house legible
 - [ ] P1-12 height marks (**marks + brother column ✓**; real child hand waits on P1-01)
 - [x] P1-13 steamed mirror (bathroom, locked camera with zero-velocity arrival, canvas wipe-mask fog shader, generated teen reflection, drips; hand mesh upgrade comes with P1-01)

@@ -2,7 +2,7 @@
 // flashbulb hits them. Then the walls open their eyes — hundreds, wet, all on us.
 
 import { useMemo } from 'react'
-import { Color, InstancedBufferAttribute, InstancedMesh, MeshBasicMaterial, Object3D, ShaderMaterial, SphereGeometry, Vector3 } from 'three'
+import { MeshBasicMaterial, Object3D, Vector3 } from 'three'
 import { audio } from '../../audio/engine'
 import type { SceneRange } from '../../content/film'
 import { setAnchor, view } from '../../engine/anchors'
@@ -12,6 +12,7 @@ import { clamp, rng, smoothstep } from '../../engine/math'
 import { makeTriggers } from '../../engine/triggers'
 import { sepiaPortrait, useImage } from '../../gl/parts/images'
 import { painted, triSet } from '../../gl/materials/painted'
+import { makeEyes, type EyePlacement } from '../../gl/parts/eyes'
 import { buildRoom } from '../../gl/parts/roomKit'
 import { SceneRoot, useSceneFrame } from '../SceneRoot'
 import type { SceneSpec } from '../types'
@@ -23,58 +24,57 @@ const FLASHES: [number, number][] = [
   [4.5, 4], [4.8, -1], [5.15, -1], [5.45, 5], [5.75, -1], [6.05, -1],
 ]
 
-const eyeVert = /* glsl */ `
-attribute float aOpen;
-attribute vec3 aIris;
-varying vec3 vLocal;
-varying vec3 vN;
-varying vec3 vIris;
-varying float vOpen;
-varying vec3 vViewDir;
-void main() {
-  vLocal = position;
-  vIris = aIris;
-  vOpen = aOpen;
-  vec4 mv = modelViewMatrix * instanceMatrix * vec4(position, 1.0);
-  vN = normalize(normalMatrix * mat3(instanceMatrix) * normal);
-  vViewDir = normalize(-mv.xyz);
-  gl_Position = projectionMatrix * mv;
-}`
 
-const eyeFrag = /* glsl */ `
-uniform float uLight;
-varying vec3 vLocal;
-varying vec3 vN;
-varying vec3 vIris;
-varying float vOpen;
-varying vec3 vViewDir;
-float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233))) * 43758.5453); }
-float n(vec2 p){ vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
-  return mix(mix(h(i),h(i+vec2(1,0)),f.x), mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x), f.y); }
-void main() {
-  vec3 p = normalize(vLocal);
-  // eyelids: an almond opening that widens with vOpen
-  float lid = vOpen * (0.62 - 0.38 * p.x * p.x);
-  float inLid = step(lid, abs(p.y)) + step(p.z, 0.05);
-  vec3 skin = vec3(0.09, 0.075, 0.07) * (0.55 + 0.45 * p.z) * (0.8 + 0.2 * n(p.xy * 30.0));
-  // sclera with veins, iris with radial fibres, pupil
-  float r = length(p.xy) * step(0.0, p.z);
-  float veins = smoothstep(0.55, 0.9, n(vec2(atan(p.y, p.x + 1e-4) * 6.0, r * 14.0))) * smoothstep(0.3, 0.95, r);
-  vec3 sclera = mix(vec3(0.92, 0.88, 0.84), vec3(0.75, 0.15, 0.12), veins * 0.55);
-  float fib = 0.75 + 0.25 * n(vec2(atan(p.y, p.x + 1e-4) * 18.0, r * 30.0));
-  vec3 iris = vIris * fib * (0.6 + 0.6 * smoothstep(0.38, 0.2, r));
-  vec3 eye = mix(sclera, iris, smoothstep(0.43, 0.4, r));
-  eye = mix(eye, vec3(0.01), smoothstep(0.19, 0.16, r));
-  // wet highlight + fresnel
-  float spec = pow(max(dot(reflect(-vViewDir, vN), normalize(vec3(0.3, 0.6, 0.7))), 0.0), 60.0);
-  float fres = pow(clamp(1.0 - dot(vN, vViewDir), 0.0, 1.0), 3.0);
-  vec3 col = mix(eye, skin, clamp(inLid, 0.0, 1.0));
-  float lit = 0.12 + uLight;
-  col = col * lit + (1.0 - clamp(inLid, 0.0, 1.0)) * (spec * 1.6 + fres * 0.15) * (0.4 + uLight);
-  gl_FragColor = vec4(col, 1.0);
-}`
-
-const EYES = 260
+/** Where the eyes go: plaster walls between frames and pilasters, the end wall around the
+ *  doorway, and the ceiling coffers. Five opening waves; style mix weighted to realistic. */
+function eyePlacements(): EyePlacement[] {
+  const R = rng(404)
+  const out: EyePlacement[] = []
+  const W = GALLERY.halfW
+  const z0 = STUDIO_WALL.z - 0.5
+  const pilasters: number[] = []
+  for (let z = z0 - GALLERY.pilasterEvery / 2; z > GALLERY.z1 + 0.5; z -= GALLERY.pilasterEvery) pilasters.push(z)
+  const style = () => {
+    const x = R()
+    return x < 0.45 ? 0 : x < 0.65 ? 1 : x < 0.77 ? 2 : x < 0.9 ? 3 : 4
+  }
+  const clear = (p: Vector3, size: number) => out.every((e) => e.pos.distanceTo(p) > (e.size + size) * 1.3)
+  const add = (pos: Vector3, rotY: number, rotX: number, size: number) => {
+    if (!clear(pos, size)) return
+    const wave = Math.floor(R() * 5)
+    out.push({ pos, rotY, rotX, size, style: style(), opensAt: 4.15 + wave * 0.38 + R() * 0.12, seed: R() })
+  }
+  // a few giants first, high on the walls and over the doorway
+  const giants: [number, number, number, number][] = [
+    [1, 7.6, -118, 1.5], [-1, 6.9, -126, 1.9], [1, 8.2, -133, 1.3], [-1, 8.4, -110.5, 1.2],
+  ]
+  for (const [side, y, z, size] of giants) add(new Vector3(side * (W - 0.012), y, z), -side * Math.PI / 2, 0, size)
+  add(new Vector3(0, 7.2, GALLERY.z1 + 0.012), 0, 0, 2.2)
+  // side walls
+  for (let i = 0; i < 900 && out.length < 170; i++) {
+    const side = R() > 0.5 ? 1 : -1
+    const z = -84 - R() * 55.5, y = 1.6 + R() * 8.1
+    const size = 0.12 + R() * R() * 0.68
+    if (pilasters.some((pz) => Math.abs(z - pz) < 0.6 + size)) continue
+    if (GALLERY_FRAMES.some((f) => f.side === side && Math.abs(z - f.z) < f.w / 2 + 0.4 + size && y > f.y - f.h / 2 - 0.4 - size && y < f.y + f.h / 2 + 0.9 + size)) continue
+    if (Math.abs(y - 5.62) < 0.08 + size * 0.6) continue // the picture rail
+    add(new Vector3(side * (W - 0.012), y, z), -side * Math.PI / 2, 0, size)
+  }
+  // the end wall, around the doorway
+  for (let i = 0; i < 400 && out.length < 215; i++) {
+    const x = (R() - 0.5) * 8.4, y = 0.5 + R() * 9.4, size = 0.12 + R() * R() * 0.6
+    if (Math.abs(x) < 1.6 + size && y < 4.2 + size) continue
+    add(new Vector3(x, y, GALLERY.z1 + 0.012), 0, 0, size)
+  }
+  // the ceiling coffers (outside the skylight bays)
+  for (let i = 0; i < 300 && out.length < 240; i++) {
+    const side = R() > 0.5 ? 1 : -1
+    const x = side * (2.5 + R() * 1.8), z = -84 - R() * 55, size = 0.12 + R() * R() * 0.45
+    if (Math.abs(((z - z0) % 3 + 3) % 3 - 0) < 0.3 + size || Math.abs(((z - z0) % 3 + 3) % 3 - 3) < 0.3 + size) continue
+    add(new Vector3(x, GALLERY.height - 0.012, z), 0, Math.PI / 2, size)
+  }
+  return out
+}
 
 function Gallery({ range: r }: { range: SceneRange }) {
   const imgs = GALLERY_FRAMES.map((f, i) =>
@@ -106,33 +106,8 @@ function Gallery({ range: r }: { range: SceneRange }) {
   const photoMats = useMemo(() => imgs.map((map) => painted({ map, roughness: 0.55, bands: 0.05 })), [imgs])
   const trig = useMemo(() => makeTriggers(), [])
 
-  // the eyes
-  const eyes = useMemo(() => {
-    const R = rng(404)
-    const geo = new SphereGeometry(1, 28, 18)
-    const mat = new ShaderMaterial({ uniforms: { uLight: { value: 0 } }, vertexShader: eyeVert, fragmentShader: eyeFrag })
-    const mesh = new InstancedMesh(geo, mat, EYES)
-    mesh.frustumCulled = false
-    const open = new Float32Array(EYES)
-    const iris = new Float32Array(EYES * 3)
-    const palette = [new Color('#4a2c1a'), new Color('#2e1c12'), new Color('#5a3b22'), new Color('#3d4a3a'), new Color('#24324a')]
-    const data = Array.from({ length: EYES }, (_, i) => {
-      const onEnd = i < 40
-      const side = R() > 0.5 ? 1 : -1
-      let pos: Vector3
-      if (onEnd) {
-        let x = (R() - 0.5) * 8.6
-        if (Math.abs(x) < 1.7) x = Math.sign(x || 1) * (1.7 + R() * 2.4)
-        pos = new Vector3(x, 0.5 + R() * 7, GALLERY.z1 + 0.12)
-      } else pos = new Vector3(side * (GALLERY.halfW - 0.08), 0.5 + R() * 7, -102.4 - R() * 37)
-      const c = palette[Math.floor(R() * palette.length)]
-      iris.set([c.r, c.g, c.b], i * 3)
-      return { pos, s: 0.05 + R() ** 1.6 * 0.2, start: 4.3 + R() * 1.8, blink: R() * 9, rate: 3 + R() * 5 }
-    })
-    mesh.geometry.setAttribute('aOpen', new InstancedBufferAttribute(open, 1))
-    mesh.geometry.setAttribute('aIris', new InstancedBufferAttribute(iris, 3))
-    return { mesh, mat, open, data, o: new Object3D() }
-  }, [])
+  // the eyes (P1-10): five styles, set into the walls and ceiling (gl/parts/eyes.ts)
+  const eyes = useMemo(() => makeEyes(eyePlacements()), [])
 
   const z1 = GALLERY.z1, W = GALLERY.halfW
   const emptyFrame = useMemo(() => new Object3D(), [])
@@ -181,22 +156,8 @@ function Gallery({ range: r }: { range: SceneRange }) {
     sceneLights.push(0, 3.2, z1 + 5, 9, 1, 0.9, 0.75, 4.5 * beam)
     sceneLights.push(0, 7.4, z1 + 2, 6, 1, 0.92, 0.8, 3 * beam)
 
-    // eyes
-    const { mesh, mat, open, data, o } = eyes
-    mat.uniforms.uLight.value = clamp(flashSum * 1.2 + beam * 0.25, 0, 1.6)
-    const closeAll = smoothstep(7.0, 7.6, u)
-    data.forEach((d, i) => {
-      const blink = Math.max(0, Math.sin(film.clock * d.rate * 0.13 + d.blink) - 0.985) * 66
-      const k = smoothstep(d.start, d.start + 0.7, u) * (1 - closeAll)
-      open[i] = clamp(k * (1 - blink))
-      o.position.copy(d.pos)
-      if (cam) o.lookAt(cam.position)
-      o.scale.setScalar(d.s * (0.05 + 0.95 * k))
-      o.updateMatrix()
-      mesh.setMatrixAt(i, o.matrix)
-    })
-    mesh.instanceMatrix.needsUpdate = true
-    ;(mesh.geometry.getAttribute('aOpen') as InstancedBufferAttribute).needsUpdate = true
+    // eyes: open in five waves from u≈4.2, all close as the beam finds the empty frame
+    if (cam) eyes.update(u, film.clock, cam.position, clamp(flashSum * 1.2 + beam * 0.3, 0, 1.6), smoothstep(7.0, 7.6, u))
 
     // the empty frame grows into a doorway
     const grow = smoothstep(6.5, 8.0, u)
