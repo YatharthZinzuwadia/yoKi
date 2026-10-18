@@ -248,6 +248,8 @@ Priority: **A** = blocks "locked", **B** = big quality jump, **C** = finish.
 
 - **2026-10-18 (resume #2)** — second rewind: the working tree had been reset to an old snapshot (all modified files shared one mtime, Noor/Mishti/Laali names back, P1-01 files missing). Restored with `git restore --source=HEAD --staged --worktree .` (the rewound diff is kept in the session scratchpad). Survivors from the lost, uncommitted P1-04 attempt: `src/scenes/p1/caveLayout.ts` and the `rock060`/`rock061` textures. The creator re-sent the same feedback, which this plan already covers. **This session:** P1-04 → P1-07 → P1-08 → P1-14 → P1-10 → P1-11 → P1-09 → P1-03 → P1-06 → P1-12, **committing after every task** (commits survive rewinds; uncommitted edits to tracked files do not).
 
+- **2026-10-18 (resume #3)** — third rewind, same symptoms: the working tree equalled v0.1 (`1581284`) in every modified file. Restored with `git restore .` (nothing lost: v0.1 is in history). Survivors from the lost P1-04 attempt are still untracked: `src/scenes/p1/caveLayout.ts` (raycast wall placement for the cave paintings) and the `rock060`/`rock061` CC0 textures. The creator re-sent the identical playthrough feedback; it is fully covered by §0–§1 (renames Sukki/Panditaein/Shivi ✓, mithilamantra.com ✓, 5'9"–5'10" akhaada build ✓, graphic crash ✓, placeholders flagged ✓). **This session:** P1-04 (rebuild on `caveLayout.ts`) → P1-07 → P1-08 → P1-14 → P1-10 → P1-11 → P1-09 → P1-03 → P1-06 → P1-12, **commit after every task, push docs first**.
+
 **Resume rule:** if `git status` shows many modified files right after a session starts, a rewind probably happened. Compare against `HEAD` before doing anything.
 
 ## 4. Progress
